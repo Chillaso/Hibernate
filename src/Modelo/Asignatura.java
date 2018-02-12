@@ -1,0 +1,55 @@
+package Modelo;
+
+//@author chillaso
+
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+@Entity
+public class Asignatura implements Serializable{
+
+    @Id
+    private int id_asig;
+    private String nombre;
+    private String profesor;
+
+    public Asignatura() {
+    }
+
+    public Asignatura(int id_asig, String nombre, String profesor) {
+	this.id_asig = id_asig;
+	this.nombre = nombre;
+	this.profesor = profesor;
+    }
+
+    public Asignatura(String nombre, String profesor) {
+	this.nombre = nombre;
+	this.profesor = profesor;
+    }        
+
+    public int getId_asig() {
+	return id_asig;
+    }
+
+    public void setId_asig(int id_asig) {
+	this.id_asig = id_asig;
+    }
+
+    public String getNombre() {
+	return nombre;
+    }
+
+    public void setNombre(String nombre) {
+	this.nombre = nombre;
+    }
+
+    public String getProfesor() {
+	return profesor;
+    }
+
+    public void setProfesor(String profesor) {
+	this.profesor = profesor;
+    }            
+}
