@@ -2,10 +2,11 @@ package DAO;
 
 import Modelo.Alumno;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public interface AlumnoDAO {
     
-    public ArrayList<Alumno> getAll();
+    public Collection<Alumno> getAll();
     public Alumno getAlumno(int id_alum);
     public Alumno getAlumno(String nombre, boolean dni);
     public void insert(Alumno a);

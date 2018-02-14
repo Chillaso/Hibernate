@@ -6,6 +6,7 @@ import DAO.AsignaturaDAO;
 import Modelo.Asignatura;
 import Util.HibernateUtil;
 import java.util.ArrayList;
+import java.util.Collection;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -17,12 +18,12 @@ public class AsignaturaImple implements AsignaturaDAO{
     }    
     
     @Override
-    public ArrayList<Asignatura> getAll() 
+    public Collection<Asignatura> getAll() 
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Asignatura.class);
-	ArrayList<Asignatura> list = (ArrayList<Asignatura>) c.list();
+	Collection<Asignatura> list = (Collection<Asignatura>) c.list();
 	s.close();
 	return list;
     }

@@ -4,10 +4,11 @@ import Modelo.Alumno;
 import Modelo.Asignatura;
 import Modelo.Nota;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public interface NotaDAO {
-    
-    public ArrayList<Nota> getNotasAlumnos(Alumno a);
-    public ArrayList<Nota> getNotasAsignatura(Asignatura a);
+
+    public Collection<Nota> getNotasAlumnos(Alumno a);
+    public Collection<Nota> getNotasAsignatura(Asignatura a);
     
 }

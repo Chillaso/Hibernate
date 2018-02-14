@@ -7,17 +7,19 @@ import Modelo.Alumno;
 import Modelo.Asignatura;
 import Modelo.Nota;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
 
 //@author chillaso
 
 public class Control {
     
+    //------------------ALUMNOS------------------
    
     public static DefaultTableModel obtenerAlumnos()
     {	
 	AlumnoImple ai = new AlumnoImple();
-	ArrayList<Alumno> alumnos = ai.getAll();
+	Collection<Alumno> alumnos = ai.getAll();
 	
 	DefaultTableModel modelo = new DefaultTableModel();
 	//6 columnas
@@ -89,11 +91,13 @@ public class Control {
 	    return false;
 	}	
     }
+    
+    //------------------ASIGNATURAS------------------
         
     public static DefaultTableModel obtenerAsignaturas()
     {	
 	AsignaturaImple ai = new AsignaturaImple();
-	ArrayList<Asignatura> asignaturas = ai.getAll();
+	Collection<Asignatura> asignaturas = ai.getAll();
 	
 	DefaultTableModel modelo = new DefaultTableModel();
 	//3 columnas
@@ -160,36 +164,30 @@ public class Control {
 	    return false;
 	}	
     }
- 
+
+    //------------------NOTAS------------------
+    
     public static DefaultTableModel notasAlum(Alumno a)
     {
 	NotaImple ni = new NotaImple();
-	ArrayList<Nota> notas = ni.getNotasAlumnos(a);
-	
-	DefaultTableModel modelo = new DefaultTableModel();
-	//3 columnas
-	modelo.addColumn("id_alum");
-	modelo.addColumn("id_asig");
-	modelo.addColumn("nota");
-	
-	for(Nota n : notas)
-	{
-	    Object[] fila = new Object[]{n.getId_alum(),n.getId_asig(),n.getNota()};
-	    modelo.addRow(fila);
-	}
-	return modelo;
+	Collection<Nota> notas = ni.getNotasAlumnos(a);
+	return crearModeloNotas(notas);
     }
     
     public static DefaultTableModel notasAsig(Asignatura a)
     {
 	NotaImple ni = new NotaImple();
-	ArrayList<Nota> notas = ni.getNotasAsignatura(a);
-	
+	Collection<Nota> notas = ni.getNotasAsignatura(a);
+	return crearModeloNotas(notas);
+    }
+    
+    private static DefaultTableModel crearModeloNotas(Collection<Nota> notas)
+    {
 	DefaultTableModel modelo = new DefaultTableModel();
 	//3 columnas
-	modelo.addColumn("id_alum");
-	modelo.addColumn("id_asig");
-	modelo.addColumn("nota");
+	modelo.addColumn("Alumno");
+	modelo.addColumn("Asignatura");
+	modelo.addColumn("Nota");
 	
 	for(Nota n : notas)
 	{
@@ -198,5 +196,4 @@ public class Control {
 	}
 	return modelo;
     }
-    
 }

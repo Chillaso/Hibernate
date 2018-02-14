@@ -6,6 +6,7 @@ import DAO.AlumnoDAO;
 import Modelo.Alumno;
 import Util.HibernateUtil;
 import java.util.ArrayList;
+import java.util.Collection;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -16,12 +17,12 @@ public class AlumnoImple implements AlumnoDAO{
     }    
     
     @Override
-    public ArrayList<Alumno> getAll() 
+    public Collection<Alumno> getAll() 
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Alumno.class);
-	ArrayList<Alumno> list = (ArrayList<Alumno>) c.list();
+	Collection<Alumno> list = (Collection<Alumno>) c.list();
 	s.close();
 	return list;
     }

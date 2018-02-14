@@ -3,21 +3,34 @@ package Modelo;
 //@author chillaso
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="alumno")
 public class Alumno implements Serializable{
 
     @Id
     private int id_alum;
-    
+    @Column
     private String dni;
+    @Column
     private String nombre;
+    @Column
     private String apellido1;
+    @Column
     private String apellido2;
+    @Column
     private int edad;
 
+    /*@OneToMany(mappedBy="alumno")
+    private ArrayList<Nota> notas;*/
+    
     public Alumno() {
     }
     
@@ -87,5 +100,13 @@ public class Alumno implements Serializable{
     public void setEdad(int edad) {
 	this.edad = edad;
     }        
+
+    /*public ArrayList<Nota> getNotas() {
+	return notas;
+    }
+
+    public void setNotas(ArrayList<Nota> notas) {
+	this.notas = notas;
+    }*/
     
 }
