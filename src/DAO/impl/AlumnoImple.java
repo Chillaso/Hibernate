@@ -21,7 +21,7 @@ public class AlumnoImple implements AlumnoDAO{
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
-	Criteria c = s.createCriteria(Alumno.class);
+	Criteria c = s.createCriteria(Alumno.class);	
 	Collection<Alumno> list = (Collection<Alumno>) c.list();
 	s.close();
 	return list;

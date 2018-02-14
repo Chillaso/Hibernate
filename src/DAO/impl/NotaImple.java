@@ -7,45 +7,27 @@ import Modelo.Alumno;
 import Modelo.Asignatura;
 import Modelo.Nota;
 import Util.HibernateUtil;
-import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.criteria.JoinType;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 
 
 public class NotaImple implements NotaDAO{
 
-    /*@Override
-    public ArrayList<Nota> getNotasAlumnos(Alumno a) 
-    {
-	Session s = HibernateUtil.getSessionFactory().openSession();
-	s.beginTransaction();
-	Criteria c = s.createCriteria(Nota.class);
-	c.add(Restrictions.eq("id_alum", a.getId_alum()));
-	ArrayList<Nota> notas = (ArrayList<Nota>) c.list();
-	s.close();
-	return notas;
-    }*/
-    
     @Override
     public Collection<Nota> getNotasAlumnos(Alumno a) 
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
-	
-	Criteria nota = s.createCriteria(Nota.class);
-	Criteria join = nota.createCriteria("id_alum",JoinType.INNER_JOIN);
-	
-	ProjectionList select = Projections.projectionList();
-	select.add(Projections.property("nombre"));
-	
-	nota.setProjection(select);
-	
-	Collection<Nota> notas = (Collection<Nota>) nota.list();
+	Criteria consulta = s.createCriteria(Nota.class,"nota")
+		.createAlias("nota.alumno", "alum")
+		.setFetchMode("asignatura", FetchMode.JOIN)
+		.setFetchMode("alumno", FetchMode.JOIN)
+		.add(Restrictions.eq("alum.nombre",a.getNombre()));
+	Collection<Nota> notas = (Collection<Nota>) consulta.list();
 	s.close();
 	return notas;
     }
@@ -56,12 +38,12 @@ public class NotaImple implements NotaDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	
-	Criteria nota = s.createCriteria(Nota.class).createCriteria("asignatura",JoinType.INNER_JOIN);
-	nota.add(Restrictions.eq("id_asig",a.getId_asig()));
-	
-	nota.setProjection(Projections.projectionList().add(Projections.property("nombre")));
-	
-	Collection<Nota> notas = (Collection<Nota>) nota.list();
+	Criteria consulta = s.createCriteria(Nota.class,"nota")
+		.createAlias("nota.asignatura", "asig")
+		.setFetchMode("asignatura", FetchMode.JOIN)
+		.setFetchMode("alumno", FetchMode.JOIN)
+		.add(Restrictions.eq("asig.nombre",a.getNombre()));
+	Collection<Nota> notas = (Collection<Nota>) consulta.list();
 	s.close();
 	return notas;
     }

@@ -3,12 +3,10 @@ package Modelo;
 //@author chillaso
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 
@@ -17,14 +15,12 @@ import javax.persistence.Table;
 public class Asignatura implements Serializable{
 
     @Id
+    @JoinColumn(name="id_asig")
     private int id_asig;
     @Column
     private String nombre;
     @Column
-    private String profesor;
-    
-    /*@OneToMany(mappedBy="asignatura")
-    private ArrayList<Nota> notas;*/
+    private String profesor;   
 
     public Asignatura() {
     }
@@ -64,11 +60,4 @@ public class Asignatura implements Serializable{
 	this.profesor = profesor;
     }            
 
-    /*public ArrayList<Nota> getNotas() {
-	return notas;
-    }
-
-    public void setNotas(ArrayList<Nota> notas) {
-	this.notas = notas;
-    }*/
 }

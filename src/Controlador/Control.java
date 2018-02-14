@@ -191,7 +191,7 @@ public class Control {
 	
 	for(Nota n : notas)
 	{
-	    Object[] fila = new Object[]{n.getId_alum(),n.getId_asig(),n.getNota()};
+	    Object[] fila = new Object[]{n.getA().getNombre(),n.getAs().getNombre(),n.getNota()};
 	    modelo.addRow(fila);
 	}
 	return modelo;
