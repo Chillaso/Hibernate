@@ -7,11 +7,7 @@
     <property name="hibernate.connection.url">jdbc:mysql://ec2-34-245-56-18.eu-west-1.compute.amazonaws.com:3306/aadd?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="show_sql">true</property>
-    
-    <!--<property name="hibernate.archive.autodetection">Alumno, Alumno.hbm</property>
-    <property name="hibernate.archive.autodetection">Asignatura, Asignatura.hbm</property>
-    <property name="hibernate.archive.autodetection">Nota, Nota.hbm</property>-->
-    
+        
     <mapping package="Hibernate.Modelo"/>
     <mapping class="Modelo.Alumno"/>
     <mapping class="Modelo.Asignatura"/>
