@@ -12,6 +12,8 @@
     <mapping class="Modelo.Alumno"/>
     <mapping class="Modelo.Asignatura"/>
     <mapping class="Modelo.Nota"/>
+    <mapping class="Modelo.Profesor"/>
+    <mapping class="Modelo.Instituto"/>
     
   </session-factory>
 </hibernate-configuration>

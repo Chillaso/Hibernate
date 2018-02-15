@@ -1,7 +1,6 @@
 package DAO;
 
 import Modelo.Alumno;
-import java.util.ArrayList;
 import java.util.Collection;
 
 public interface AlumnoDAO {

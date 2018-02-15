@@ -5,7 +5,9 @@ import DAO.impl.AsignaturaImple;
 import DAO.impl.NotaImple;
 import Modelo.Alumno;
 import Modelo.Asignatura;
+import Modelo.Instituto;
 import Modelo.Nota;
+import Modelo.Profesor;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
@@ -26,13 +28,12 @@ public class Control {
 	modelo.addColumn("id_alum");
 	modelo.addColumn("DNI");
 	modelo.addColumn("Nombre");
-	modelo.addColumn("Apellido 1");
-	modelo.addColumn("Apellido 2");
+	modelo.addColumn("Apellido");
 	modelo.addColumn("Edad");
 	
 	for(Alumno a : alumnos)
 	{
-	    Object[] fila = new Object[]{a.getId_alum(),a.getDni(),a.getNombre(),a.getApellido1(),a.getApellido2(),a.getEdad()};
+	    Object[] fila = new Object[]{a.getId_alum(),a.getDni(),a.getNombre(),a.getApellido1(),a.getEdad()};
 	    modelo.addRow(fila);
 	}
 	
@@ -50,12 +51,12 @@ public class Control {
 	return new AlumnoImple().getAlumno(identificador, dni);
     }
     
-    public static boolean insertAlumno(String dni, String nombre, String ape1, String ape2, int edad)
+    public static boolean insertAlumno(String dni, String nombre, String ape, int edad)
     {	
 	if(dni.length()==9 && edad > 0 && edad < 120 && !nombre.isEmpty() &&
-		!ape1.isEmpty() && !ape2.isEmpty())
+		!ape.isEmpty())
 	{
-	    Alumno a = new Alumno(dni,nombre,ape1,ape2,edad);
+	    Alumno a = new Alumno(dni,nombre,ape,edad);
 	    AlumnoImple ai = new AlumnoImple();
 	    ai.insert(a);
 	    return true;
@@ -64,12 +65,12 @@ public class Control {
 	    return false;
     }    
     
-    public static boolean updateAlumno(int id, String dni, String nombre, String ape1, String ape2, int edad)
+    public static boolean updateAlumno(int id, String dni, String nombre, String ape, int edad)
     {	
 	if(dni.length()==9 && edad > 0 && edad < 120 && !nombre.isEmpty() &&
-		!ape1.isEmpty() && !ape2.isEmpty())
+		!ape.isEmpty())
 	{
-	    Alumno a = new Alumno(id,dni,nombre,ape1,ape2,edad);
+	    Alumno a = new Alumno(id,dni,nombre,ape,edad);
 	    AlumnoImple ai = new AlumnoImple();
 	    ai.update(a);
 	    return true;
@@ -104,6 +105,7 @@ public class Control {
 	modelo.addColumn("id_asig");
 	modelo.addColumn("Nombre");
 	modelo.addColumn("Profesor");
+	modelo.addColumn("Instituto");
 	
 	for(Asignatura a : asignaturas)
 	{
@@ -125,12 +127,14 @@ public class Control {
 	return new AsignaturaImple().getAsignatura(identificador, profesor);
     }
     
-    public static boolean insertAsignatura(String nombre, String profesor)
+    public static boolean insertAsignatura(String nombre, String profesor, String instituto)
     {	
-	if(!nombre.isEmpty() && !profesor.isEmpty())
+	if(!nombre.isEmpty() && !profesor.isEmpty() && !instituto.isEmpty())
 	{
-	    Asignatura a = new Asignatura(nombre,profesor);
 	    AsignaturaImple ai = new AsignaturaImple();
+	    Profesor p = ai.getProfesor(profesor);
+	    Instituto i = ai.getInstituto(instituto);
+    	    Asignatura a = new Asignatura(p,i,nombre);
 	    ai.insert(a);
 	    return true;
 	}	
@@ -138,12 +142,14 @@ public class Control {
 	    return false;
     }    
     
-    public static boolean updateAsignatura(int id,String nombre, String profesor)
+    public static boolean updateAsignatura(int id,String nombre, String profesor, String instituto)
     {	
-	if(!nombre.isEmpty() && !profesor.isEmpty())
-	{
-	    Asignatura a = new Asignatura(id,nombre,profesor);
+	if(!nombre.isEmpty() && !profesor.isEmpty() && !instituto.isEmpty())
+	{	 
 	    AsignaturaImple ai = new AsignaturaImple();
+	    Profesor p = ai.getProfesor(profesor);
+	    Instituto i = ai.getInstituto(instituto);
+    	    Asignatura a = new Asignatura(id,p,i,nombre);
 	    ai.update(a);
 	    return true;
 	}	

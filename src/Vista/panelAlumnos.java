@@ -34,7 +34,7 @@ public class panelAlumnos extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         dni = new javax.swing.JTextField();
-        ape1 = new javax.swing.JTextField();
+        ape = new javax.swing.JTextField();
         ape2 = new javax.swing.JTextField();
         edad = new javax.swing.JTextField();
         nombre = new javax.swing.JTextField();
@@ -74,7 +74,7 @@ public class panelAlumnos extends javax.swing.JPanel {
 
         dni.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        ape1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ape.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         ape2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
@@ -107,7 +107,7 @@ public class panelAlumnos extends javax.swing.JPanel {
                             .addComponent(jLabel4))
                         .addGap(79, 79, 79)
                         .addGroup(dialogAlumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ape1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ape, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(edad, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ape2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dni, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -130,7 +130,7 @@ public class panelAlumnos extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addGroup(dialogAlumLayout.createSequentialGroup()
                         .addGroup(dialogAlumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ape1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(49, 49, 49)
                         .addComponent(ape2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -145,10 +145,8 @@ public class panelAlumnos extends javax.swing.JPanel {
 
         dialogEliminar.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogEliminar.setLocationByPlatform(true);
-        dialogEliminar.setMaximumSize(new java.awt.Dimension(625, 265));
         dialogEliminar.setMinimumSize(new java.awt.Dimension(625, 265));
         dialogEliminar.setModal(true);
-        dialogEliminar.setPreferredSize(new java.awt.Dimension(625, 265));
 
         btnEliminarDialog.setText("Aceptar");
         btnEliminarDialog.addActionListener(new java.awt.event.ActionListener() {
@@ -312,9 +310,9 @@ public class panelAlumnos extends javax.swing.JPanel {
         int numedad = Integer.parseInt(edad.getText());
 	
 	if(insertar)
-	    result = Control.insertAlumno(dni.getText(), nombre.getText(), ape1.getText(), ape2.getText(), numedad);	
+	    result = Control.insertAlumno(dni.getText(), nombre.getText(), ape.getText(), numedad);	
 	else
-	    result = Control.updateAlumno(selectedID,dni.getText(), nombre.getText(), ape1.getText(), ape2.getText(), numedad);	
+	    result = Control.updateAlumno(selectedID,dni.getText(), nombre.getText(), ape.getText(), numedad);	
 	
 	if(result)
 	    JOptionPane.showMessageDialog(null, "Datos insertados correctamente");
@@ -330,7 +328,7 @@ public class panelAlumnos extends javax.swing.JPanel {
 
 	dni.setText("");
 	nombre.setText("");
-	ape1.setText("");
+	ape.setText("");
 	ape2.setText("");
 	edad.setText("");
 	
@@ -347,8 +345,7 @@ public class panelAlumnos extends javax.swing.JPanel {
 	
 	dni.setText(alumno.getDni());
 	nombre.setText(alumno.getNombre());
-	ape1.setText(alumno.getApellido1());
-	ape2.setText(alumno.getApellido2());
+	ape.setText(alumno.getApellido1());
 	edad.setText(""+alumno.getEdad());
 	
 	insertar=false;
@@ -389,7 +386,7 @@ public class panelAlumnos extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEliminarDialogActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ape1;
+    private javax.swing.JTextField ape;
     private javax.swing.JTextField ape2;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnEliminar;

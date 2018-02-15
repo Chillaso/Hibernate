@@ -4,10 +4,13 @@ package DAO.impl;
 
 import DAO.AsignaturaDAO;
 import Modelo.Asignatura;
+import Modelo.Instituto;
+import Modelo.Nota;
+import Modelo.Profesor;
 import Util.HibernateUtil;
-import java.util.ArrayList;
 import java.util.Collection;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -56,7 +59,35 @@ public class AsignaturaImple implements AsignaturaDAO{
 	s.close();
 	return a;
     }        
-    
+
+    @Override
+    public Instituto getInstituto(String nombre) {
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria consulta = s.createCriteria(Asignatura.class,"asig")
+		.createAlias("asig.instituto", "i")
+		.setFetchMode("profesor", FetchMode.JOIN)
+		.setFetchMode("instituto", FetchMode.JOIN)
+		.add(Restrictions.eq("i.nombre",nombre));
+	Instituto instituto = (Instituto) consulta.list().get(0);
+	s.close();	
+	return instituto;
+    }
+
+    @Override
+    public Profesor getProfesor(String nombre) {
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria consulta = s.createCriteria(Asignatura.class,"asig")
+		.createAlias("asig.profesor", "p")
+		.setFetchMode("profesor", FetchMode.JOIN)
+		.setFetchMode("instituto", FetchMode.JOIN)
+		.add(Restrictions.eq("p.nombre",nombre));
+	Profesor profesor = (Profesor) consulta.list().get(0);
+	s.close();	
+	return profesor;
+    }
+            
     @Override
     public void insert(Asignatura a) 
     {

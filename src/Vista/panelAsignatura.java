@@ -36,6 +36,8 @@ public class panelAsignatura extends javax.swing.JPanel {
         lblprof = new javax.swing.JLabel();
         txtProfesor = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
+        txtInsti = new javax.swing.JTextField();
+        lblInsti = new javax.swing.JLabel();
         dialogEliminar = new javax.swing.JDialog();
         radioNA = new javax.swing.JRadioButton();
         radioNP = new javax.swing.JRadioButton();
@@ -73,39 +75,50 @@ public class panelAsignatura extends javax.swing.JPanel {
             }
         });
 
+        txtInsti.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        lblInsti.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblInsti.setText("Instituto");
+
         javax.swing.GroupLayout dialogAsigLayout = new javax.swing.GroupLayout(dialogAsig.getContentPane());
         dialogAsig.getContentPane().setLayout(dialogAsigLayout);
         dialogAsigLayout.setHorizontalGroup(
             dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialogAsigLayout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dialogAsigLayout.createSequentialGroup()
-                        .addComponent(lblprof)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(dialogAsigLayout.createSequentialGroup()
-                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(132, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogAsigLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(dialogAsigLayout.createSequentialGroup()
+                .addGap(132, 132, 132)
+                .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblprof)
+                    .addComponent(lblInsti)
+                    .addGroup(dialogAsigLayout.createSequentialGroup()
+                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtInsti, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         dialogAsigLayout.setVerticalGroup(
             dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dialogAsigLayout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(57, 57, 57)
+                .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addGap(48, 48, 48)
                 .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblprof, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
+                .addGroup(dialogAsigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtInsti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblInsti, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -287,7 +300,6 @@ public class panelAsignatura extends javax.swing.JPanel {
 	idActual = a.getId_asig();
 	
 	txtNombre.setText(a.getNombre());
-	txtProfesor.setText(a.getProfesor());
 	
 	insertar=false;
 	
@@ -303,9 +315,9 @@ public class panelAsignatura extends javax.swing.JPanel {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 	boolean result;
 	if(insertar)
-	    result = Control.insertAsignatura(txtNombre.getText(), txtProfesor.getText());
+	    result = Control.insertAsignatura(txtNombre.getText(), txtProfesor.getText(),txtInsti.getText());
 	else
-	    result = Control.updateAsignatura(idActual,txtNombre.getText(), txtProfesor.getText());
+	    result = Control.updateAsignatura(idActual,txtNombre.getText(), txtProfesor.getText(),txtInsti.getText());
 	
 	if(result)
 	{
@@ -357,6 +369,7 @@ public class panelAsignatura extends javax.swing.JPanel {
     private javax.swing.ButtonGroup grupoRad;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblInsti;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblprof;
@@ -364,6 +377,7 @@ public class panelAsignatura extends javax.swing.JPanel {
     private javax.swing.JRadioButton radioNP;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtEliminar;
+    private javax.swing.JTextField txtInsti;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtProfesor;
     // End of variables declaration//GEN-END:variables
