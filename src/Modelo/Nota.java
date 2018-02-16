@@ -14,23 +14,43 @@ import javax.persistence.Table;
 @Entity
 @Table(name="nota")
 public class Nota implements Serializable{
-    
-    //Cada nota esta asociada a un solo alumno    
+       
+    @Column(name="nota")
+    private int nota;
+       
     @ManyToOne
     @JoinColumn(name="id_alum")
     @Id
-    private Alumno alumno;
+    private Alumno id_alum;
     
     @ManyToOne
     @JoinColumn(name="id_asig")
     @Id
-    private Asignatura asignatura;
-    
-    @Column
-    private int nota;
-
+    private Asignatura id_asig;
     
     public Nota() {
+    }
+
+    public Nota(Alumno id_alum, Asignatura id_asig, int nota) {
+	this.id_alum = id_alum;
+	this.id_asig = id_asig;
+	this.nota = nota;
+    }
+
+    public Alumno getId_alum() {
+	return id_alum;
+    }
+
+    public void setId_alum(Alumno id_alum) {
+	this.id_alum = id_alum;
+    }
+
+    public Asignatura getId_asig() {
+	return id_asig;
+    }
+
+    public void setId_asig(Asignatura id_asig) {
+	this.id_asig = id_asig;
     }
 
     public int getNota() {
@@ -39,21 +59,5 @@ public class Nota implements Serializable{
 
     public void setNota(int nota) {
 	this.nota = nota;
-    }
-
-    public Alumno getA() {
-	return alumno;
-    }
-
-    public void setA(Alumno a) {
-	this.alumno = a;
-    }
-
-    public Asignatura getAs() {
-	return asignatura;
-    }
-
-    public void setAs(Asignatura as) {
-	this.asignatura = as;
-    }       
+    } 
 }

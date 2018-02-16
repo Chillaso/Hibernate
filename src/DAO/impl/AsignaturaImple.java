@@ -51,9 +51,9 @@ public class AsignaturaImple implements AsignaturaDAO{
 	Criteria c = s.createCriteria(Asignatura.class);
 	
 	if(profesor)
-	    c.add(Restrictions.eq("profesor", identificador));
+	    c.add(Restrictions.ilike("profesor", identificador));
 	else 
-	    c.add(Restrictions.eq("nombre", identificador));
+	    c.add(Restrictions.ilike("nombre", identificador));
 	
 	Asignatura a = (Asignatura) c.list().get(0);
 	s.close();
@@ -68,7 +68,7 @@ public class AsignaturaImple implements AsignaturaDAO{
 		.createAlias("asig.instituto", "i")
 		.setFetchMode("profesor", FetchMode.JOIN)
 		.setFetchMode("instituto", FetchMode.JOIN)
-		.add(Restrictions.eq("i.nombre",nombre));
+		.add(Restrictions.ilike("i.nombre",nombre));
 	Instituto instituto = (Instituto) consulta.list().get(0);
 	s.close();	
 	return instituto;
@@ -82,7 +82,7 @@ public class AsignaturaImple implements AsignaturaDAO{
 		.createAlias("asig.profesor", "p")
 		.setFetchMode("profesor", FetchMode.JOIN)
 		.setFetchMode("instituto", FetchMode.JOIN)
-		.add(Restrictions.eq("p.nombre",nombre));
+		.add(Restrictions.ilike("p.nombre",nombre));
 	Profesor profesor = (Profesor) consulta.list().get(0);
 	s.close();	
 	return profesor;

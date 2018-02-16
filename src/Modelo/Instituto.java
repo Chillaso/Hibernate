@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +17,7 @@ public class Instituto implements Serializable{
     @Id
     @JoinColumn(name="id_instituto")
     private int id_instituto;
+    
     @Column
     private String nombre;
     @Column

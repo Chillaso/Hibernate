@@ -4,10 +4,13 @@ package DAO.impl;
 
 import DAO.AlumnoDAO;
 import Modelo.Alumno;
+import Modelo.Asignatura;
+import Modelo.Instituto;
 import Util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -47,14 +50,28 @@ public class AlumnoImple implements AlumnoDAO{
 	Criteria c = s.createCriteria(Alumno.class);
 	
 	if(dni)
-	    c.add(Restrictions.eq("dni", identificador));
+	    c.add(Restrictions.ilike("dni", identificador));
 	else 
-	    c.add(Restrictions.eq("nombre", identificador));
+	    c.add(Restrictions.ilike("nombre", identificador));
 	
 	Alumno a = (Alumno) c.list().get(0);
 	s.close();
 	return a;
-    }        
+    }
+    
+    @Override
+    public Instituto getInstituto(String nombre) {
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria consulta = s.createCriteria(Alumno.class,"a")
+		.createAlias("a.instituto", "i")
+		.setFetchMode("profesor", FetchMode.JOIN)
+		.setFetchMode("instituto", FetchMode.JOIN)
+		.add(Restrictions.ilike("i.nombre",nombre));
+	Instituto instituto = (Instituto) consulta.list().get(0);
+	s.close();	
+	return instituto;
+    }
     
     @Override
     public void insert(Alumno a) 

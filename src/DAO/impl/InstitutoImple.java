@@ -43,7 +43,7 @@ public class InstitutoImple implements InstitutoDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Instituto.class);
-	c.add(Restrictions.eq("nombre", nombre));
+	c.add(Restrictions.ilike("nombre", nombre));
 	Instituto i = (Instituto) c.list().get(0);
 	s.close();
 	return i;	
@@ -62,7 +62,7 @@ public class InstitutoImple implements InstitutoDAO{
     @Override
     public void delete(Instituto a) 
     {
-		Session s = HibernateUtil.getSessionFactory().openSession();
+	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	s.delete(a);
 	s.getTransaction().commit();
@@ -71,7 +71,7 @@ public class InstitutoImple implements InstitutoDAO{
 
     @Override
     public void update(Instituto a) {
-		Session s = HibernateUtil.getSessionFactory().openSession();
+	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	s.update(a);
 	s.getTransaction().commit();

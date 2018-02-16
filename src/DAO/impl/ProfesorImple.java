@@ -31,7 +31,7 @@ public class ProfesorImple implements ProfesorDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Profesor.class);
-	c.add(Restrictions.eq("id_profesor", id_profesor));
+	c.add(Restrictions.ilike("id_profesor", id_profesor));
 	Profesor i = (Profesor) c.list().get(0);
 	s.close();
 	return i;	
@@ -45,9 +45,9 @@ public class ProfesorImple implements ProfesorDAO{
 	Criteria c = s.createCriteria(Profesor.class);
 	
 	if(dni)
-	    c.add(Restrictions.eq("dni", nombre));
+	    c.add(Restrictions.ilike("dni", nombre));
 	else 
-	    c.add(Restrictions.eq("nombre", nombre));
+	    c.add(Restrictions.ilike("nombre", nombre));
 	
 	Profesor p = (Profesor) c.list().get(0);
 	s.close();

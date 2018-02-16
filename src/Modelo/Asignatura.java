@@ -7,38 +7,45 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="asignatura")
 public class Asignatura implements Serializable{
-
+    
     @Id
     @JoinColumn(name="id_asig")
-    private int id_asig;
-    @Id
-    @JoinColumn(name="id_profesor")
-    private Profesor profesor;
-    @Id
-    @JoinColumn(name="id_instituto")
-    private Instituto instituto;
+    private int id_asig;    
+    
     @Column
-    private String nombre;            
+    private String nombre;       
+    
+    @OneToOne
+    //@Id
+    @JoinColumn(name="id_profesor")
+    private Profesor id_profesor;
+    
+    @OneToOne
+    //@Id
+    @JoinColumn(name="id_instituto")
+    private Instituto id_instituto;        
 
     public Asignatura() {
     }
 
     public Asignatura(Profesor profesor, Instituto instituto, String nombre) {
-	this.profesor = profesor;
-	this.instituto = instituto;
+	this.id_profesor = profesor;
+	this.id_instituto = instituto;
 	this.nombre = nombre;
     }
 
     public Asignatura(int id_asig, Profesor profesor, Instituto instituto, String nombre) {
 	this.id_asig = id_asig;
-	this.profesor = profesor;
-	this.instituto = instituto;
+	this.id_profesor = profesor;
+	this.id_instituto = instituto;
 	this.nombre = nombre;
     }
 
@@ -51,19 +58,19 @@ public class Asignatura implements Serializable{
     }
 
     public Profesor getProfesor() {
-	return profesor;
+	return id_profesor;
     }
 
     public void setProfesor(Profesor profesor) {
-	this.profesor = profesor;
+	this.id_profesor = profesor;
     }
 
     public Instituto getInstituto() {
-	return instituto;
+	return id_instituto;
     }
 
     public void setInstituto(Instituto instituto) {
-	this.instituto = instituto;
+	this.id_instituto = instituto;
     }
 
     public String getNombre() {

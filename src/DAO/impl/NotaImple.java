@@ -8,7 +8,6 @@ import Modelo.Asignatura;
 import Modelo.Nota;
 import Util.HibernateUtil;
 import java.util.Collection;
-import javax.persistence.criteria.JoinType;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -17,6 +16,15 @@ import org.hibernate.criterion.Restrictions;
 
 public class NotaImple implements NotaDAO{
 
+    public Collection<Nota> getAll()
+    {
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria c = s.createCriteria(Nota.class);
+	Collection<Nota> notas = (Collection<Nota>) c.list();
+	return notas;
+    }
+    
     @Override
     public Collection<Nota> getNotasAlumnos(Alumno a) 
     {
@@ -26,7 +34,7 @@ public class NotaImple implements NotaDAO{
 		.createAlias("nota.alumno", "alum")
 		.setFetchMode("asignatura", FetchMode.JOIN)
 		.setFetchMode("alumno", FetchMode.JOIN)
-		.add(Restrictions.eq("alum.nombre",a.getNombre()));
+		.add(Restrictions.ilike("alum.nombre",a.getNombre()));
 	Collection<Nota> notas = (Collection<Nota>) consulta.list();
 	s.close();
 	return notas;
@@ -42,7 +50,7 @@ public class NotaImple implements NotaDAO{
 		.createAlias("nota.asignatura", "asig")
 		.setFetchMode("asignatura", FetchMode.JOIN)
 		.setFetchMode("alumno", FetchMode.JOIN)
-		.add(Restrictions.eq("asig.nombre",a.getNombre()));
+		.add(Restrictions.ilike("asig.nombre",a.getNombre()));
 	Collection<Nota> notas = (Collection<Nota>) consulta.list();
 	s.close();
 	return notas;

@@ -23,6 +23,7 @@ public class Profesor implements Serializable{
     private String nombre;
     @Column
     private String apellido;
+    
     @ManyToOne
     @JoinColumn(name="id_instituto")
     private Instituto i;

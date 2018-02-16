@@ -2,19 +2,55 @@ package Controlador;
 
 import DAO.impl.AlumnoImple;
 import DAO.impl.AsignaturaImple;
+import DAO.impl.InstitutoImple;
 import DAO.impl.NotaImple;
+import DAO.impl.ProfesorImple;
 import Modelo.Alumno;
 import Modelo.Asignatura;
 import Modelo.Instituto;
 import Modelo.Nota;
 import Modelo.Profesor;
+import Vista.Ventana;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
 
 //@author chillaso
 
-public class Control {
+public class Control extends Thread{
+    
+    public static int carga=0;
+    public static ArrayList<DefaultTableModel> tablas = new ArrayList<DefaultTableModel>();
+    private Ventana v;
+    
+    public Control(Ventana v){this.v=v;}
+    
+    private void cargaInicial()
+    {
+	tablas.add(obtenerAlumnos());
+	actualizar();
+	tablas.add(obtenerAsignaturas());
+	actualizar();	
+	tablas.add(obtenerNotas());
+	actualizar();	
+	tablas.add(obtenerProfesores());
+	actualizar();
+	tablas.add(obtenerInstitutos());	
+	actualizar();
+    }
+
+    private void actualizar()
+    {
+	carga+=20;
+	v.repaint();
+	v.revalidate();
+    }
+    
+    @Override
+    public void run() 
+    {
+	cargaInicial();
+    }        
     
     //------------------ALUMNOS------------------
    
@@ -30,10 +66,11 @@ public class Control {
 	modelo.addColumn("Nombre");
 	modelo.addColumn("Apellido");
 	modelo.addColumn("Edad");
+	modelo.addColumn("Instituto");
 	
 	for(Alumno a : alumnos)
 	{
-	    Object[] fila = new Object[]{a.getId_alum(),a.getDni(),a.getNombre(),a.getApellido1(),a.getEdad()};
+	    Object[] fila = new Object[]{a.getId_alum(),a.getDni(),a.getNombre(),a.getApellido(),a.getEdad(),a.getI().getNombre()};
 	    modelo.addRow(fila);
 	}
 	
@@ -51,13 +88,14 @@ public class Control {
 	return new AlumnoImple().getAlumno(identificador, dni);
     }
     
-    public static boolean insertAlumno(String dni, String nombre, String ape, int edad)
+    public static boolean insertAlumno(String dni, String nombre, String ape, int edad, String i)
     {	
 	if(dni.length()==9 && edad > 0 && edad < 120 && !nombre.isEmpty() &&
 		!ape.isEmpty())
 	{
-	    Alumno a = new Alumno(dni,nombre,ape,edad);
 	    AlumnoImple ai = new AlumnoImple();
+	    Instituto ins = ai.getInstituto(i);
+	    Alumno a = new Alumno(dni,nombre,ape,edad,ins);
 	    ai.insert(a);
 	    return true;
 	}	
@@ -65,13 +103,14 @@ public class Control {
 	    return false;
     }    
     
-    public static boolean updateAlumno(int id, String dni, String nombre, String ape, int edad)
+    public static boolean updateAlumno(int id, String dni, String nombre, String ape, int edad, String i)
     {	
 	if(dni.length()==9 && edad > 0 && edad < 120 && !nombre.isEmpty() &&
 		!ape.isEmpty())
 	{
-	    Alumno a = new Alumno(id,dni,nombre,ape,edad);
 	    AlumnoImple ai = new AlumnoImple();
+	    Instituto ins = ai.getInstituto(i);
+	    Alumno a = new Alumno(dni,nombre,ape,edad,ins);	    
 	    ai.update(a);
 	    return true;
 	}	
@@ -109,7 +148,8 @@ public class Control {
 	
 	for(Asignatura a : asignaturas)
 	{
-	    Object[] fila = new Object[]{a.getId_asig(),a.getNombre(),a.getProfesor()};
+	    Object[] fila = new Object[]{a.getId_asig(),a.getNombre(),a.getProfesor().getNombre()+" "+a.getProfesor().getApellido()
+		    ,a.getInstituto().getNombre()};
 	    modelo.addRow(fila);
 	}
 	
@@ -173,6 +213,25 @@ public class Control {
 
     //------------------NOTAS------------------
     
+    public static DefaultTableModel obtenerNotas()
+    {
+	NotaImple ni = new NotaImple();
+	Collection<Nota> notas = ni.getAll();
+	
+	DefaultTableModel modelo = new DefaultTableModel();
+	modelo.addColumn("Alumno");
+	modelo.addColumn("Asignatura");
+	modelo.addColumn("Nota");
+	
+	for(Nota n : notas)
+	{
+	    Object[] fila = new Object[]{n.getId_alum().getNombre(),n.getId_asig().getNombre(),n.getNota()};
+	    modelo.addRow(fila);
+	}
+	
+	return modelo;	
+    }
+    
     public static DefaultTableModel notasAlum(Alumno a)
     {
 	NotaImple ni = new NotaImple();
@@ -197,9 +256,53 @@ public class Control {
 	
 	for(Nota n : notas)
 	{
-	    Object[] fila = new Object[]{n.getA().getNombre(),n.getAs().getNombre(),n.getNota()};
+	    Object[] fila = new Object[]{n.getId_alum(),n.getId_asig(),n.getNota()};
 	    modelo.addRow(fila);
 	}
+	return modelo;
+    }
+    
+    //-----------------PROFESORES---------------
+    
+    public static DefaultTableModel obtenerProfesores()
+    {
+	ProfesorImple pi = new ProfesorImple();
+	Collection<Profesor> profesores = pi.getAll();
+	
+	DefaultTableModel modelo = new DefaultTableModel();
+	modelo.addColumn("id_profesor");
+	modelo.addColumn("DNI");
+	modelo.addColumn("Nombre");
+	modelo.addColumn("Apellido");
+	modelo.addColumn("Instituto");
+	
+	for(Profesor p : profesores)
+	{
+	    Object[] fila = new Object[]{p.getId_profesor(),p.getDni(),p.getNombre(),p.getApellido(),p.getI().getNombre()};
+	    modelo.addRow(fila);
+	}
+	
+	return modelo;
+    }
+    
+    //------------------INSTITUTOS----------------
+    
+    public static DefaultTableModel obtenerInstitutos()
+    {
+	InstitutoImple ii = new InstitutoImple();
+	Collection<Instituto> institutos = ii.getAll();
+	
+	DefaultTableModel modelo = new DefaultTableModel();
+	modelo.addColumn("id_instituto");
+	modelo.addColumn("Nombre");
+	modelo.addColumn("Localidad");
+	
+	for(Instituto i : institutos)
+	{
+	    Object[] fila = new Object[]{i.getId_instituto(),i.getNombre(),i.getLocalidad()};
+	    modelo.addRow(fila);
+	}
+	
 	return modelo;
     }
 }
