@@ -2,11 +2,11 @@ package DAO.impl;
 
 import DAO.ProfesorDAO;
 import Modelo.Alumno;
-import Modelo.Instituto;
 import Modelo.Profesor;
 import Util.HibernateUtil;
 import java.util.Collection;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -24,6 +24,31 @@ public class ProfesorImple implements ProfesorDAO{
 	s.close();
 	return list;
     }
+    
+    public Collection<Profesor> filtrarProf(String dni, String nom, String ape, String in)
+    {
+	
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria c;
+	
+	if(dni.isEmpty()) dni="%";
+	if(nom.isEmpty()) nom="%";
+	if(ape.isEmpty()) ape="%";
+	if(in.isEmpty()) in="%";
+		
+	c = s.createCriteria(Profesor.class, "prof")
+		    .createAlias("prof.id_instituto", "in")
+		    .setFetchMode("id_instituto",FetchMode.JOIN)
+		    .add(Restrictions.ilike("dni",dni))
+		    .add(Restrictions.ilike("nombre",nom))
+		    .add(Restrictions.ilike("apellido",ape))
+		    .add(Restrictions.ilike("in.nombre",in));	    
+
+	Collection<Profesor> profesores = (Collection<Profesor>) c.list();
+	s.close();
+	return profesores;
+    }    
 
     @Override
     public Profesor getProfesor(int id_profesor) 

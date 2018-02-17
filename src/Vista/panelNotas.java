@@ -2,12 +2,15 @@ package Vista;
 
 //@author chillaso
 
+import Controlador.Control;
 import javax.swing.JTable;
 
  
 public class panelNotas extends javax.swing.JPanel{
 
     private Ventana v;
+    private boolean insertar;
+    private final int[] COMPARADOR = new int[]{-2,-1,0,1,2};
     
     public panelNotas(Ventana v) {
         this.v=v;
@@ -22,13 +25,13 @@ public class panelNotas extends javax.swing.JPanel{
         dialogNota = new javax.swing.JDialog();
         lblFiltro = new javax.swing.JLabel();
         lblAsig = new javax.swing.JLabel();
-        nombre = new javax.swing.JTextField();
+        asig = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         lblAsig1 = new javax.swing.JLabel();
         lblAsig2 = new javax.swing.JLabel();
-        nombre1 = new javax.swing.JTextField();
-        nombre2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        alum = new javax.swing.JTextField();
+        nota = new javax.swing.JTextField();
+        comparador = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnFiltrar = new javax.swing.JButton();
@@ -44,7 +47,7 @@ public class panelNotas extends javax.swing.JPanel{
         lblAsig.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
         lblAsig.setText("alumno");
 
-        nombre.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        asig.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         btnAceptar.setBackground(new java.awt.Color(51, 255, 102));
         btnAceptar.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
@@ -61,11 +64,11 @@ public class panelNotas extends javax.swing.JPanel{
         lblAsig2.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
         lblAsig2.setText("asignatura");
 
-        nombre1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        alum.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        nombre2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        nota.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", ">", "<", ">=", "<=" }));
+        comparador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<", "<=", "=", ">=", ">" }));
 
         javax.swing.GroupLayout dialogNotaLayout = new javax.swing.GroupLayout(dialogNota.getContentPane());
         dialogNota.getContentPane().setLayout(dialogNotaLayout);
@@ -84,12 +87,12 @@ public class panelNotas extends javax.swing.JPanel{
                 .addGap(34, 34, 34)
                 .addGroup(dialogNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFiltro)
-                    .addComponent(nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(alum, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(asig, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(dialogNotaLayout.createSequentialGroup()
-                        .addComponent(nombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nota, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comparador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         dialogNotaLayout.setVerticalGroup(
@@ -99,17 +102,17 @@ public class panelNotas extends javax.swing.JPanel{
                 .addComponent(lblFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(dialogNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(alum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAsig))
                 .addGap(45, 45, 45)
                 .addGroup(dialogNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(asig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAsig2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(dialogNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAsig1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombre2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comparador, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
@@ -181,7 +184,16 @@ public class panelNotas extends javax.swing.JPanel{
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        //FILTRO
+	if(!insertar)
+	{
+	    int n = -1;
+	    if(!nota.getText().isEmpty())
+		n = Integer.parseInt(nota.getText());
+	    int c = COMPARADOR[comparador.getSelectedIndex()];
+	    tabla.setModel(Control.filtrarNotas(asig.getText(),alum.getText(), n, c));
+	}
+	dialogNota.dispose();
+	dialogNota.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     public JTable getTabla() {
@@ -189,19 +201,19 @@ public class panelNotas extends javax.swing.JPanel{
     }    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField alum;
+    private javax.swing.JTextField asig;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAñadir;
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JComboBox<String> comparador;
     private javax.swing.JDialog dialogNota;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAsig;
     private javax.swing.JLabel lblAsig1;
     private javax.swing.JLabel lblAsig2;
     private javax.swing.JLabel lblFiltro;
-    private javax.swing.JTextField nombre;
-    private javax.swing.JTextField nombre1;
-    private javax.swing.JTextField nombre2;
+    private javax.swing.JTextField nota;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 

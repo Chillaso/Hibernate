@@ -29,6 +29,46 @@ public class AlumnoImple implements AlumnoDAO{
 	s.close();
 	return list;
     }
+    
+    public Collection<Alumno> filtrarAlum(String dni, String nom, String ape, int edad, String in)
+    {
+	
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria c;
+	
+	if(dni.isEmpty()) dni="%";
+	if(nom.isEmpty()) nom="%";
+	if(ape.isEmpty()) ape="%";
+	if(in.isEmpty()) in="%";
+	
+	if(edad==-1)
+	{	
+	    //ilike no case sensitive
+	    c = s.createCriteria(Alumno.class, "alum")
+			.createAlias("alum.id_instituto", "in")
+			.setFetchMode("id_instituto",FetchMode.JOIN)
+			.add(Restrictions.ilike("dni",dni))
+			.add(Restrictions.ilike("nombre",nom))
+			.add(Restrictions.ilike("apellido",ape))
+			.add(Restrictions.gt("edad",edad))		    
+			.add(Restrictions.ilike("in.nombre",in));	    
+	}
+	else
+	{
+	    c = s.createCriteria(Alumno.class, "alum")
+			.createAlias("alum.id_instituto", "in")
+			.setFetchMode("id_instituto",FetchMode.JOIN)
+			.add(Restrictions.ilike("dni",dni))
+			.add(Restrictions.ilike("nombre",nom))
+			.add(Restrictions.ilike("apellido",ape))
+			.add(Restrictions.eq("edad",edad))
+			.add(Restrictions.ilike("in.nombre",in));	    
+	}
+	Collection<Alumno> alumnos = (Collection<Alumno>) c.list();
+	s.close();
+	return alumnos;
+    }
 
     @Override
     public Alumno getAlumno(int id_alum) 

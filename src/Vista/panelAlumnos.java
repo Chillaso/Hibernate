@@ -209,28 +209,25 @@ public class panelAlumnos extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
-	boolean result;
-        int numedad = Integer.parseInt(edad.getText());
-	
-	if(insertar)
-	    result = Control.insertAlumno(dni.getText(), nombre.getText(), ape.getText(), numedad,instituto.getText());	
-	else
-	    result = Control.updateAlumno(selectedID,dni.getText(), nombre.getText(), ape.getText(), numedad,instituto.getText());	
-	
-	if(result)
-	    JOptionPane.showMessageDialog(null, "Datos insertados correctamente");
-	else
-	    JOptionPane.showInternalInputDialog(null, "Error en la introducción de los datos");
+	if(!insertar)
+	{	
+	    int e=-1;
+	    if(!edad.getText().isEmpty())
+		e = Integer.parseInt(edad.getText());
+	    
+	    tabla.setModel(Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getText()));	   
+	}
+	dialogAlum.dispose();
+	dialogAlum.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+	insertar=true;
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 	dialogAlum.setVisible(true);
-	
+	insertar=false;	
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     public JTable getTabla() {

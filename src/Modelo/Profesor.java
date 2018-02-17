@@ -26,7 +26,7 @@ public class Profesor implements Serializable{
     
     @ManyToOne
     @JoinColumn(name="id_instituto")
-    private Instituto i;
+    private Instituto id_instituto;
 
     public Profesor() {
     }
@@ -36,14 +36,14 @@ public class Profesor implements Serializable{
 	this.dni = dni;
 	this.nombre = nombre;
 	this.apellido = apellido;
-	this.i = i;
+	this.id_instituto = i;
     }
 
     public Profesor(String dni, String nombre, String apellido, Instituto i) {
 	this.dni = dni;
 	this.nombre = nombre;
 	this.apellido = apellido;
-	this.i = i;
+	this.id_instituto = i;
     }
 
     public int getId_profesor() {
@@ -79,11 +79,11 @@ public class Profesor implements Serializable{
     }
 
     public Instituto getI() {
-	return i;
+	return id_instituto;
     }
 
     public void setI(Instituto i) {
-	this.i = i;
+	this.id_instituto = i;
     }
     
     

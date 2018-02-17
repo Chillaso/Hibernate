@@ -57,8 +57,19 @@ public class Control extends Thread{
     public static DefaultTableModel obtenerAlumnos()
     {	
 	AlumnoImple ai = new AlumnoImple();
-	Collection<Alumno> alumnos = ai.getAll();
-	
+	Collection<Alumno> alumnos = ai.getAll();	
+	return cargarModeloAlum(alumnos);
+    }
+    
+    public static DefaultTableModel filtrarAlumnos(String dni, String nom, String ape, int edad, String in)
+    {
+	AlumnoImple ai = new AlumnoImple();
+	Collection<Alumno> alumnos = ai.filtrarAlum(dni, nom, ape, edad, in);
+	return cargarModeloAlum(alumnos);
+    }
+    
+    private static DefaultTableModel cargarModeloAlum(Collection<Alumno> alumnos)
+    {
 	DefaultTableModel modelo = new DefaultTableModel();
 	//6 columnas
 	modelo.addColumn("id_alum");
@@ -72,8 +83,7 @@ public class Control extends Thread{
 	{
 	    Object[] fila = new Object[]{a.getId_alum(),a.getDni(),a.getNombre(),a.getApellido(),a.getEdad(),a.getI().getNombre()};
 	    modelo.addRow(fila);
-	}
-	
+	}	
 	return modelo;
     }
     
@@ -138,9 +148,20 @@ public class Control extends Thread{
     {	
 	AsignaturaImple ai = new AsignaturaImple();
 	Collection<Asignatura> asignaturas = ai.getAll();
-	
+	return cargarModeloAsig(asignaturas);
+
+    }
+    
+    public static DefaultTableModel filtrarAsig(String nombre, String prof, String in)
+    {
+	AsignaturaImple ai = new AsignaturaImple();
+	Collection<Asignatura> asigs = ai.filtrarAsig(nombre, prof, in);
+	return cargarModeloAsig(asigs);
+    }
+    
+    private static DefaultTableModel cargarModeloAsig(Collection<Asignatura> asignaturas)
+    {
 	DefaultTableModel modelo = new DefaultTableModel();
-	//3 columnas
 	modelo.addColumn("id_asig");
 	modelo.addColumn("Nombre");
 	modelo.addColumn("Profesor");
@@ -154,7 +175,7 @@ public class Control extends Thread{
 	}
 	
 	return modelo;
-    }
+    }    
     
     public static Asignatura obtenerAsignatura(int id)
     {
@@ -217,7 +238,18 @@ public class Control extends Thread{
     {
 	NotaImple ni = new NotaImple();
 	Collection<Nota> notas = ni.getAll();
-	
+	return cargarModeloNotas(notas);
+    }
+    
+    public static DefaultTableModel filtrarNotas(String asig, String alum, int nota, int comparador)
+    {
+	NotaImple ni = new NotaImple();
+	Collection<Nota> notas = ni.filtrarNota(asig, alum, nota, comparador);
+	return cargarModeloNotas(notas);	
+    }
+    
+    private static DefaultTableModel cargarModeloNotas(Collection<Nota> notas)
+    {	
 	DefaultTableModel modelo = new DefaultTableModel();
 	modelo.addColumn("Alumno");
 	modelo.addColumn("Asignatura");
@@ -268,7 +300,18 @@ public class Control extends Thread{
     {
 	ProfesorImple pi = new ProfesorImple();
 	Collection<Profesor> profesores = pi.getAll();
-	
+	return cargarModeloProf(profesores);
+    }
+    
+    public static DefaultTableModel filtrarProfs(String dni, String nom, String ape, String in)
+    {
+	ProfesorImple pi = new ProfesorImple();
+	Collection<Profesor> profs = pi.filtrarProf(dni, nom, ape, in);
+	return cargarModeloProf(profs);
+    }
+    
+    private static DefaultTableModel cargarModeloProf(Collection<Profesor> profesores)
+    {
 	DefaultTableModel modelo = new DefaultTableModel();
 	modelo.addColumn("id_profesor");
 	modelo.addColumn("DNI");
@@ -280,8 +323,7 @@ public class Control extends Thread{
 	{
 	    Object[] fila = new Object[]{p.getId_profesor(),p.getDni(),p.getNombre(),p.getApellido(),p.getI().getNombre()};
 	    modelo.addRow(fila);
-	}
-	
+	}	
 	return modelo;
     }
     
@@ -291,7 +333,18 @@ public class Control extends Thread{
     {
 	InstitutoImple ii = new InstitutoImple();
 	Collection<Instituto> institutos = ii.getAll();
-	
+	return cargarModeloInsti(institutos);
+    }
+    
+    public static DefaultTableModel filtrarInstitutos(String nom, String loc)
+    {
+	InstitutoImple ii = new InstitutoImple();
+	Collection<Instituto> institutos = ii.filtrarInstis(nom, loc);
+	return cargarModeloInsti(institutos);	
+    }
+    
+    private static DefaultTableModel cargarModeloInsti(Collection<Instituto>institutos)
+    {
 	DefaultTableModel modelo = new DefaultTableModel();
 	modelo.addColumn("id_instituto");
 	modelo.addColumn("Nombre");

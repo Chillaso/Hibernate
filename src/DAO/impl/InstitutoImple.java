@@ -3,11 +3,11 @@ package DAO.impl;
 //@author chillaso
 
 import DAO.InstitutoDAO;
-import Modelo.Asignatura;
 import Modelo.Instituto;
 import Util.HibernateUtil;
 import java.util.Collection;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -24,6 +24,26 @@ public class InstitutoImple implements InstitutoDAO{
 	s.close();
 	return list;
     }
+    
+    public Collection<Instituto> filtrarInstis(String nom, String localidad)
+    {
+	
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria c;
+	
+	if(nom.isEmpty()) nom="%";
+	if(localidad.isEmpty()) localidad="%";
+
+	c = s.createCriteria(Instituto.class)
+		.add(Restrictions.ilike("nombre",nom))
+		.add(Restrictions.ilike("localidad",localidad));
+	
+	Collection<Instituto> instis = (Collection<Instituto>) c.list();
+	s.close();
+	
+	return instis;
+    }    
 
     @Override
     public Instituto getInstituto(int id_instituto) 

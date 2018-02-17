@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.Control;
 import javax.swing.JTable;
 
 
@@ -8,6 +9,7 @@ import javax.swing.JTable;
 public class panelInstituto extends javax.swing.JPanel {
 
     private Ventana v;
+    private boolean insertar;
     
     public panelInstituto(Ventana v) {
         initComponents();
@@ -161,10 +163,16 @@ public class panelInstituto extends javax.swing.JPanel {
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 	dialogInsti.setVisible(true);
+	insertar=false;
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        //FILTRO
+	if(!insertar)
+	{
+	    tabla.setModel(Control.filtrarInstitutos(nombre.getText(), localidad.getText()));
+	}
+	dialogInsti.dispose();
+	dialogInsti.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     public JTable getTabla() {

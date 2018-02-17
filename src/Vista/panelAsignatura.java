@@ -2,6 +2,7 @@ package Vista;
 
 //@author chillaso
 
+import Controlador.Control;
 import javax.swing.JTable;
  
 public class panelAsignatura extends javax.swing.JPanel{
@@ -180,11 +181,17 @@ public class panelAsignatura extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-	//FILTRO
+	if(!insertar)
+	{
+	    tabla.setModel(Control.filtrarAsig(nombre.getText(),profesor.getText(),instituto.getText()));
+	}
+	dialogAsig.dispose();
+	dialogAsig.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 	dialogAsig.setVisible(true);
+	insertar=false;
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     public JTable getTabla() {

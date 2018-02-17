@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.Control;
 import javax.swing.JTable;
 
 
@@ -8,6 +9,7 @@ import javax.swing.JTable;
 public class panelProfesor extends javax.swing.JPanel{
 
     private Ventana v;
+    private boolean insertar;
     
     public panelProfesor(Ventana v) {
         initComponents();
@@ -28,9 +30,9 @@ public class panelProfesor extends javax.swing.JPanel{
         lblAsig1 = new javax.swing.JLabel();
         lblAsig2 = new javax.swing.JLabel();
         lblAsig3 = new javax.swing.JLabel();
-        nombre1 = new javax.swing.JTextField();
-        nombre2 = new javax.swing.JTextField();
-        nombre3 = new javax.swing.JTextField();
+        dni = new javax.swing.JTextField();
+        ape = new javax.swing.JTextField();
+        insti = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnFiltrar = new javax.swing.JButton();
@@ -67,11 +69,11 @@ public class panelProfesor extends javax.swing.JPanel{
         lblAsig3.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
         lblAsig3.setText("instituto");
 
-        nombre1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        dni.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        nombre2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ape.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        nombre3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        insti.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout dialogProfesorLayout = new javax.swing.GroupLayout(dialogProfesor.getContentPane());
         dialogProfesor.getContentPane().setLayout(dialogProfesorLayout);
@@ -98,10 +100,10 @@ public class panelProfesor extends javax.swing.JPanel{
                                     .addComponent(lblAsig1)
                                     .addGap(92, 92, 92)))
                             .addGroup(dialogProfesorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(nombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ape, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dni, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nombre3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(insti, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(79, 79, 79))
         );
         dialogProfesorLayout.setVerticalGroup(
@@ -111,7 +113,7 @@ public class panelProfesor extends javax.swing.JPanel{
                 .addComponent(lblFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(dialogProfesorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAsig1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(dialogProfesorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -120,10 +122,10 @@ public class panelProfesor extends javax.swing.JPanel{
                 .addGap(37, 37, 37)
                 .addGroup(dialogProfesorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAsig2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombre2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(dialogProfesorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(insti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAsig3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,10 +190,16 @@ public class panelProfesor extends javax.swing.JPanel{
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 	dialogProfesor.setVisible(true);
+	insertar=false;
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        //FILTRO
+        if(!insertar)
+	{
+	    tabla.setModel(Control.filtrarProfs(dni.getText(), nombre.getText(), ape.getText(), insti.getText()));
+	}
+	dialogProfesor.dispose();
+	dialogProfesor.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     public JTable getTabla() {
@@ -199,10 +207,13 @@ public class panelProfesor extends javax.swing.JPanel{
     }    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ape;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnFiltrar1;
     private javax.swing.JDialog dialogProfesor;
+    private javax.swing.JTextField dni;
+    private javax.swing.JTextField insti;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAsig;
     private javax.swing.JLabel lblAsig1;
@@ -210,9 +221,6 @@ public class panelProfesor extends javax.swing.JPanel{
     private javax.swing.JLabel lblAsig3;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JTextField nombre;
-    private javax.swing.JTextField nombre1;
-    private javax.swing.JTextField nombre2;
-    private javax.swing.JTextField nombre3;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 

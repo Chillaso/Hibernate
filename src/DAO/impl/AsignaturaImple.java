@@ -3,6 +3,7 @@ package DAO.impl;
 //@author chillaso
 
 import DAO.AsignaturaDAO;
+import Modelo.Alumno;
 import Modelo.Asignatura;
 import Modelo.Instituto;
 import Modelo.Nota;
@@ -29,6 +30,31 @@ public class AsignaturaImple implements AsignaturaDAO{
 	Collection<Asignatura> list = (Collection<Asignatura>) c.list();
 	s.close();
 	return list;
+    }
+    
+    public Collection<Asignatura> filtrarAsig(String nom, String prof, String in)
+    {
+	
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	Criteria c;
+	
+	if(nom.isEmpty()) nom="%";
+	if(prof.isEmpty()) prof="%";
+	if(in.isEmpty()) in="%";
+
+	c = s.createCriteria(Asignatura.class, "asig")
+		.createAlias("asig.id_profesor", "prof")
+		.createAlias("asig.id_instituto", "in")
+		.setFetchMode("id_instituto",FetchMode.JOIN)
+		.setFetchMode("id_profesor", FetchMode.JOIN)
+		.add(Restrictions.ilike("nombre",nom))
+		.add(Restrictions.ilike("prof.nombre",prof))
+		.add(Restrictions.ilike("in.nombre",in));	    
+	
+	Collection<Asignatura> asignaturas = (Collection<Asignatura>) c.list();
+	s.close();
+	return asignaturas;
     }
 
     @Override

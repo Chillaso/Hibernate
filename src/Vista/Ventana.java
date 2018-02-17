@@ -88,8 +88,8 @@ public class Ventana extends javax.swing.JFrame {
         cargaLayout.setVerticalGroup(
             cargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cargaLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(lblcargar)
+                .addGap(38, 38, 38)
+                .addComponent(lblcargar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addComponent(progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,8 +173,16 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_conectarActionPerformed
 
     private void desconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarActionPerformed
-	HibernateUtil.getSessionFactory().close();
-	JOptionPane.showMessageDialog(null, "Base de datos desconectada");
+	if(conectado)
+	{
+	    HibernateUtil.getSessionFactory().close();
+	    JOptionPane.showMessageDialog(null, "Base de datos desconectada");
+	}
+	else
+	{
+	    JOptionPane.showMessageDialog(null, "Base de datos no conectada. No se puede desconectar");
+	}
+	
     }//GEN-LAST:event_desconectarActionPerformed
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
