@@ -15,12 +15,15 @@ public class Ventana extends javax.swing.JFrame {
     private panelNotas pn;
     private panelProfesor pp;
     private panelInstituto pi;
+    public int idActual;
+
     
     public Ventana() 
     {
         initComponents();
 	setLocationRelativeTo(null);
 	
+	idActual=-1;
 	pa = new panelAlumnos(this);
 	paa = new panelAsignatura(this);
 	pn = new panelNotas(this);

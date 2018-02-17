@@ -1,21 +1,35 @@
 package Vista;
 
 import Controlador.Control;
+import DAO.impl.AlumnoImple;
+import Modelo.Alumno;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 //@author chillaso
  
 public class panelAlumnos extends javax.swing.JPanel{
 
     private Ventana v;
-    private int selectedID;
     private boolean insertar;
     
     public panelAlumnos(Ventana v) {
         this.v=v;	
 	initComponents();	
 	dialogAlum.setLocationRelativeTo(null);
+	
+	//EDICION TABLA	
+	
+	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	tabla.getSelectionModel().addListSelectionListener(new TableListener(v,tabla));
     }
 
     @SuppressWarnings("unchecked")
@@ -160,6 +174,11 @@ public class panelAlumnos extends javax.swing.JPanel{
             }
         ));
         tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tabla.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabla);
 
         btnAdd.setBackground(new java.awt.Color(255, 255, 153));
@@ -229,6 +248,25 @@ public class panelAlumnos extends javax.swing.JPanel{
 	dialogAlum.setVisible(true);
 	insertar=false;	
     }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void tablaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaKeyPressed
+	if(evt.getKeyCode()==KeyEvent.VK_ENTER)
+	{	    
+	    //Comprueba que tenemos un ID Seleccionado
+	    if(v.idActual!=-1)
+	    {
+		//Mostramos por pantalla si queremos guardar los cambios
+		int r = JOptionPane.showConfirmDialog(null, "¿Desea guardar los cambios?","Aviso",JOptionPane.YES_NO_OPTION);
+		if(r == JOptionPane.YES_OPTION)
+		{
+		    //Obtenemos el alumno a traves del id actual
+		    Alumno a = Control.obtenerAlumno(v.idActual);
+		    //Upgrade
+		    Control.updateAlumno(a);   
+		}
+	    }
+	}
+    }//GEN-LAST:event_tablaKeyPressed
 
     public JTable getTabla() {
 	return tabla;

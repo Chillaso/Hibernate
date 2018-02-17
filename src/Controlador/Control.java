@@ -128,6 +128,12 @@ public class Control extends Thread{
 	    return false;
     }        
     
+    public static void updateAlumno(Alumno a)
+    {
+	AlumnoImple ai = new AlumnoImple();
+	ai.update(a);
+    }
+    
     public static boolean eliminarAlumno(Alumno a)
     {
 	try
