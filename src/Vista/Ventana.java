@@ -52,14 +52,16 @@ public class Ventana extends javax.swing.JFrame {
         verFAQ = new javax.swing.JMenuItem();
 
         carga.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        carga.setTitle("Cargando...");
+        carga.setBackground(new java.awt.Color(204, 255, 204));
         carga.setMinimumSize(new java.awt.Dimension(646, 292));
 
-        lblcargar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblcargar.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
         lblcargar.setText("Cargando datos de la Base de Datos. Espere...");
 
         progreso.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        btnCancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnCancelar.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
         btnCancelar.setText("CANCELAR");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +83,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addGroup(cargaLayout.createSequentialGroup()
                         .addGap(273, 273, 273)
                         .addComponent(btnCancelar)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         cargaLayout.setVerticalGroup(
             cargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,18 +94,22 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCancelar)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ACCESO A DATOS");
         setMinimumSize(new java.awt.Dimension(873, 674));
 
+        tabPane.setFont(new java.awt.Font("DejaVu Sans Light", 1, 14)); // NOI18N
         tabPane.setPreferredSize(new java.awt.Dimension(875, 675));
 
-        menuBD.setText("Conexión");
-        menuBD.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jMenuBar1.setFont(new java.awt.Font("DejaVu Sans Light", 1, 14)); // NOI18N
 
+        menuBD.setText("Conexión");
+        menuBD.setFont(new java.awt.Font("DejaVu Sans Light", 1, 14)); // NOI18N
+
+        conectar.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         conectar.setText("Conectar BD");
         conectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +118,7 @@ public class Ventana extends javax.swing.JFrame {
         });
         menuBD.add(conectar);
 
+        desconectar.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         desconectar.setText("Desconectar BD");
         desconectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,6 +127,7 @@ public class Ventana extends javax.swing.JFrame {
         });
         menuBD.add(desconectar);
 
+        salir.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,8 +139,9 @@ public class Ventana extends javax.swing.JFrame {
         jMenuBar1.add(menuBD);
 
         FAQ.setText("FAQ");
-        FAQ.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        FAQ.setFont(new java.awt.Font("DejaVu Sans Light", 1, 14)); // NOI18N
 
+        verFAQ.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         verFAQ.setText("Ver FAQ");
         FAQ.add(verFAQ);
 
