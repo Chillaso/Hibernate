@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.TableListener;
 import Controlador.Control;
 import DAO.impl.AlumnoImple;
 import Modelo.Alumno;

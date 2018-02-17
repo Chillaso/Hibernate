@@ -1,7 +1,8 @@
-package Vista;
+package Controlador;
 
 //@author chillaso
 
+import Vista.Ventana;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
