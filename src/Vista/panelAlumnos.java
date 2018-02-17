@@ -147,7 +147,7 @@ public class panelAlumnos extends javax.swing.JPanel{
         setPreferredSize(new java.awt.Dimension(875, 675));
 
         tabla.setBackground(new java.awt.Color(204, 255, 204));
-        tabla.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tabla.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},

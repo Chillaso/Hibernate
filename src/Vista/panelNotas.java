@@ -36,9 +36,7 @@ public class panelNotas extends javax.swing.JPanel{
 
         dialogNota.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogNota.setTitle("Notas");
-        dialogNota.setMaximumSize(new java.awt.Dimension(671, 400));
         dialogNota.setMinimumSize(new java.awt.Dimension(671, 400));
-        dialogNota.setPreferredSize(new java.awt.Dimension(671, 400));
 
         lblFiltro.setFont(new java.awt.Font("The Light Font", 1, 62)); // NOI18N
         lblFiltro.setText("FILTROS");
@@ -120,7 +118,7 @@ public class panelNotas extends javax.swing.JPanel{
         setBackground(new java.awt.Color(204, 255, 204));
 
         tabla.setBackground(new java.awt.Color(204, 255, 204));
-        tabla.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tabla.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},

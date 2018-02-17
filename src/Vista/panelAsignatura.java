@@ -40,9 +40,7 @@ public class panelAsignatura extends javax.swing.JPanel{
         dialogAsig.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogAsig.setTitle("Asignatura");
         dialogAsig.setLocationByPlatform(true);
-        dialogAsig.setMaximumSize(new java.awt.Dimension(712, 420));
         dialogAsig.setMinimumSize(new java.awt.Dimension(712, 420));
-        dialogAsig.setPreferredSize(new java.awt.Dimension(712, 420));
         dialogAsig.setResizable(false);
 
         lblAsig.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
@@ -129,7 +127,7 @@ public class panelAsignatura extends javax.swing.JPanel{
         setBackground(new java.awt.Color(204, 255, 204));
 
         tabla.setBackground(new java.awt.Color(204, 255, 204));
-        tabla.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tabla.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},

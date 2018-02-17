@@ -38,7 +38,6 @@ public class panelProfesor extends javax.swing.JPanel{
 
         dialogProfesor.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogProfesor.setTitle("Profesor");
-        dialogProfesor.setMaximumSize(new java.awt.Dimension(685, 473));
         dialogProfesor.setMinimumSize(new java.awt.Dimension(685, 473));
         dialogProfesor.setResizable(false);
 
@@ -135,7 +134,7 @@ public class panelProfesor extends javax.swing.JPanel{
         setPreferredSize(new java.awt.Dimension(875, 687));
 
         tabla.setBackground(new java.awt.Color(204, 255, 204));
-        tabla.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tabla.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},

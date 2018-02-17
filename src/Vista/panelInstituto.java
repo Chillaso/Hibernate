@@ -33,7 +33,6 @@ public class panelInstituto extends javax.swing.JPanel {
 
         dialogInsti.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogInsti.setTitle("Instituto");
-        dialogInsti.setMaximumSize(new java.awt.Dimension(668, 362));
         dialogInsti.setMinimumSize(new java.awt.Dimension(668, 362));
 
         lblFiltro.setFont(new java.awt.Font("The Light Font", 1, 62)); // NOI18N
@@ -99,7 +98,7 @@ public class panelInstituto extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(875, 687));
 
         tabla.setBackground(new java.awt.Color(204, 255, 204));
-        tabla.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tabla.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
