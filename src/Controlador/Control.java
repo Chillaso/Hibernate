@@ -13,6 +13,7 @@ import Modelo.Profesor;
 import Vista.Ventana;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 //@author chillaso
@@ -120,7 +121,7 @@ public class Control extends Thread{
 	{
 	    AlumnoImple ai = new AlumnoImple();
 	    Instituto ins = ai.getInstituto(i);
-	    Alumno a = new Alumno(dni,nombre,ape,edad,ins);	    
+	    Alumno a = new Alumno(id,dni,nombre,ape,edad,ins);	    
 	    ai.update(a);
 	    return true;
 	}	
@@ -270,7 +271,7 @@ public class Control extends Thread{
 	return modelo;	
     }
     
-    public static DefaultTableModel notasAlum(Alumno a)
+    /*public static DefaultTableModel notasAlum(Alumno a)
     {
 	NotaImple ni = new NotaImple();
 	Collection<Nota> notas = ni.getNotasAlumnos(a);
@@ -282,7 +283,7 @@ public class Control extends Thread{
 	NotaImple ni = new NotaImple();
 	Collection<Nota> notas = ni.getNotasAsignatura(a);
 	return crearModeloNotas(notas);
-    }
+    }*/
     
     private static DefaultTableModel crearModeloNotas(Collection<Nota> notas)
     {
@@ -340,6 +341,25 @@ public class Control extends Thread{
 	InstitutoImple ii = new InstitutoImple();
 	Collection<Instituto> institutos = ii.getAll();
 	return cargarModeloInsti(institutos);
+    }
+
+    public static DefaultComboBoxModel rellenarCombo()
+    {
+	InstitutoImple ii = new InstitutoImple();
+	Collection<Instituto> institutos = ii.getAll();
+	DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+	for (Instituto i : institutos)
+	{
+	    modelo.addElement(i.getNombre());
+	}
+	return modelo;
+    }
+    
+    public static Instituto obtenerInstituto(String nombre)
+    {
+	InstitutoImple ii = new InstitutoImple();
+	Instituto i = ii.getInstituto(nombre);
+	return i;
     }
     
     public static DefaultTableModel filtrarInstitutos(String nom, String loc)

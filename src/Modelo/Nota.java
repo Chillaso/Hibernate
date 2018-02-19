@@ -19,8 +19,10 @@ public class Nota implements Serializable{
     private int nota;
        
     @ManyToOne
+    //name= nombre BD
     @JoinColumn(name="id_alum")
     @Id
+    //name = El que quieras
     private Alumno id_alum;
     
     @ManyToOne

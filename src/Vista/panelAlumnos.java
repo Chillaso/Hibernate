@@ -2,18 +2,12 @@ package Vista;
 
 import Controlador.TableListener;
 import Controlador.Control;
-import DAO.impl.AlumnoImple;
 import Modelo.Alumno;
-import java.awt.event.KeyEvent;
+import Modelo.Instituto;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 //@author chillaso
  
@@ -27,10 +21,14 @@ public class panelAlumnos extends javax.swing.JPanel{
 	initComponents();	
 	dialogAlum.setLocationRelativeTo(null);
 	
-	//EDICION TABLA	
-	
+	//EDICION TABLA		
 	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	tabla.getSelectionModel().addListSelectionListener(new TableListener(v,tabla));
+	tabla.getSelectionModel().addListSelectionListener(new TableListener(tabla,6));
+	
+	tabla.setComponentPopupMenu(popup);
+	popup.add(delete);
+	
+	instituto.setModel(Control.rellenarCombo());
     }
 
     @SuppressWarnings("unchecked")
@@ -48,12 +46,16 @@ public class panelAlumnos extends javax.swing.JPanel{
         nombre = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        instituto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        instituto = new javax.swing.JComboBox<>();
+        eliminar = new javax.swing.JMenuItem();
+        popup = new javax.swing.JPopupMenu();
+        delete = new javax.swing.JMenuItem();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnFiltrar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         dialogAlum.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogAlum.setTitle("Alumnos");
@@ -91,10 +93,11 @@ public class panelAlumnos extends javax.swing.JPanel{
         jLabel7.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
         jLabel7.setText("Instituto");
 
-        instituto.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
         jLabel6.setFont(new java.awt.Font("The Light Font", 1, 62)); // NOI18N
         jLabel6.setText("FILTROS");
+
+        instituto.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        instituto.setMaximumRowCount(5);
 
         javax.swing.GroupLayout dialogAlumLayout = new javax.swing.GroupLayout(dialogAlum.getContentPane());
         dialogAlum.getContentPane().setLayout(dialogAlumLayout);
@@ -123,9 +126,9 @@ public class panelAlumnos extends javax.swing.JPanel{
                             .addComponent(jLabel7)
                             .addComponent(jLabel5))
                         .addGap(165, 165, 165)
-                        .addGroup(dialogAlumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(instituto, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(edad, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(dialogAlumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(edad, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                            .addComponent(instituto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(107, 107, 107))
         );
         dialogAlumLayout.setVerticalGroup(
@@ -151,12 +154,22 @@ public class panelAlumnos extends javax.swing.JPanel{
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(dialogAlumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(instituto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(instituto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(45, Short.MAX_VALUE))
         );
+
+        eliminar.setText("Eliminar");
+
+        delete.setText("Eliminar");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+        popup.add(delete);
 
         setBackground(new java.awt.Color(204, 255, 204));
         setPreferredSize(new java.awt.Dimension(875, 675));
@@ -175,9 +188,9 @@ public class panelAlumnos extends javax.swing.JPanel{
             }
         ));
         tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tabla.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tablaKeyPressed(evt);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablaMousePressed(evt);
             }
         });
         jScrollPane2.setViewportView(tabla);
@@ -200,6 +213,15 @@ public class panelAlumnos extends javax.swing.JPanel{
             }
         });
 
+        btnGuardar.setBackground(new java.awt.Color(255, 255, 153));
+        btnGuardar.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
+        btnGuardar.setText("guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,7 +229,9 @@ public class panelAlumnos extends javax.swing.JPanel{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 623, Short.MAX_VALUE)
+                .addGap(250, 250, 250)
+                .addComponent(btnGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
                 .addComponent(btnAdd)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +243,8 @@ public class panelAlumnos extends javax.swing.JPanel{
                 .addContainerGap(624, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -235,40 +260,79 @@ public class panelAlumnos extends javax.swing.JPanel{
 	    if(!edad.getText().isEmpty())
 		e = Integer.parseInt(edad.getText());
 	    
-	    tabla.setModel(Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getText()));	   
+	    tabla.setModel(Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getSelectedItem().toString()));	   
+	}
+	else
+	{	    
+	    if(!dni.getText().isEmpty() && !nombre.getText().isEmpty() && !ape.getText().isEmpty() 
+		    && !instituto.getSelectedItem().toString().isEmpty() && !edad.getText().isEmpty())
+	    {
+		int e = Integer.parseInt(edad.getText());
+		Instituto i = Control.obtenerInstituto(instituto.getSelectedItem().toString());
+		Control.insertAlumno(dni.getText(), nombre.getText(), ape.getText(), e, i.getNombre());
+		
+	    }
+	    actualizarTabla();
 	}
 	dialogAlum.dispose();
 	dialogAlum.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-	insertar=true;
+	if(v.isConectado())
+	{
+	    insertar=true;
+	    dialogAlum.setVisible(true);
+	}
+	else{
+	    JOptionPane.showMessageDialog(null, "Error, conectese primero", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-	dialogAlum.setVisible(true);
-	insertar=false;	
+	if(v.isConectado())
+	{
+	    insertar=false;
+	    dialogAlum.setVisible(true);
+	}	
+	else{
+	    JOptionPane.showMessageDialog(null, "Error, conectese primero", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
-    private void tablaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaKeyPressed
-	if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-	{	    
-	    //Comprueba que tenemos un ID Seleccionado
-	    if(v.idActual!=-1)
-	    {
-		//Mostramos por pantalla si queremos guardar los cambios
-		int r = JOptionPane.showConfirmDialog(null, "¿Desea guardar los cambios?","Aviso",JOptionPane.YES_NO_OPTION);
-		if(r == JOptionPane.YES_OPTION)
-		{
-		    //Obtenemos el alumno a traves del id actual
-		    Alumno a = Control.obtenerAlumno(v.idActual);
-		    //Upgrade
-		    Control.updateAlumno(a);   
-		}
-	    }
-	}
-    }//GEN-LAST:event_tablaKeyPressed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+	Object[] params = TableListener.params;
+	int id = (int) params[0];
+	String d = (String) params[1];
+	String n = (String) params[2];
+	String a = (String) params[3];
+	int e = (int) params[4];
+	String i =(String) params[5];
+	Control.updateAlumno(id, d, n, a, e, i);	
+	actualizarTabla();
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void tablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMousePressed
+	if(evt.getButton()==MouseEvent.BUTTON3)
+	{	    
+	    tabla.getComponentPopupMenu().show(null, evt.getX(), evt.getY());
+	}
+    }//GEN-LAST:event_tablaMousePressed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+	Object[] params = TableListener.params;
+	int id = (int) params[0];
+	Alumno a = Control.obtenerAlumno(id);
+	Control.eliminarAlumno(a);	
+	actualizarTabla();
+    }//GEN-LAST:event_deleteActionPerformed
+    
+    private void actualizarTabla()
+    {
+	TableListener.celda=-1;
+	tabla.setModel(Control.obtenerAlumnos());
+    }
+        
     public JTable getTabla() {
 	return tabla;
     }
@@ -278,10 +342,13 @@ public class panelAlumnos extends javax.swing.JPanel{
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JMenuItem delete;
     private javax.swing.JDialog dialogAlum;
     private javax.swing.JTextField dni;
     private javax.swing.JTextField edad;
-    private javax.swing.JTextField instituto;
+    private javax.swing.JMenuItem eliminar;
+    private javax.swing.JComboBox<String> instituto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -290,6 +357,7 @@ public class panelAlumnos extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField nombre;
+    private javax.swing.JPopupMenu popup;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 

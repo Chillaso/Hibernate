@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class NotaImple implements NotaDAO{
 
+    @Override
     public Collection<Nota> getAll()
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
@@ -24,7 +25,7 @@ public class NotaImple implements NotaDAO{
 	Collection<Nota> notas = (Collection<Nota>) c.list();
 	return notas;
     }
-    
+    @Override
     public Collection<Nota> filtrarNota(String asig, String alum, int nota, int comparador)
     {
 	
@@ -39,7 +40,7 @@ public class NotaImple implements NotaDAO{
 	{	
 	    //ilike no case sensitive
 	    c = s.createCriteria(Nota.class, "n")
-		    .createAlias("n.id_alum", "al")
+		    .createAlias("n.id_alum", "al") //El de java
 		    .createAlias("n.id_asig", "as")
 		    .setFetchMode("id_asig", FetchMode.JOIN)
 		    .setFetchMode("id_alum", FetchMode.JOIN)
@@ -111,39 +112,5 @@ public class NotaImple implements NotaDAO{
 	Collection<Nota> notas = (Collection<Nota>) c.list();
 	s.close();
 	return notas;
-    }    
-    
-    @Override
-    public Collection<Nota> getNotasAlumnos(Alumno a) 
-    {
-	Session s = HibernateUtil.getSessionFactory().openSession();
-	s.beginTransaction();
-	Criteria consulta = s.createCriteria(Nota.class,"nota")
-		.createAlias("nota.alumno", "alum")
-		.setFetchMode("asignatura", FetchMode.JOIN)
-		.setFetchMode("alumno", FetchMode.JOIN)
-		.add(Restrictions.ilike("alum.nombre",a.getNombre()));
-	Collection<Nota> notas = (Collection<Nota>) consulta.list();
-	s.close();
-	return notas;
-    }
-    
-    @Override
-    public Collection<Nota> getNotasAsignatura(Asignatura a) 
-    {
-	Session s = HibernateUtil.getSessionFactory().openSession();
-	s.beginTransaction();
-	
-	Criteria consulta = s.createCriteria(Nota.class,"nota")
-		.createAlias("nota.asignatura", "asig")
-		.setFetchMode("asignatura", FetchMode.JOIN)
-		.setFetchMode("alumno", FetchMode.JOIN)
-		.add(Restrictions.ilike("asig.nombre",a.getNombre()));
-	Collection<Nota> notas = (Collection<Nota>) consulta.list();
-	s.close();
-	return notas;
-    }
-
-    
-    
+    }        
 }

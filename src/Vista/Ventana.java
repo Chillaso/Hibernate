@@ -5,6 +5,7 @@ import Util.HibernateUtil;
 import java.awt.Graphics;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
+import org.hibernate.service.UnknownServiceException;
 
 public class Ventana extends javax.swing.JFrame {
 
@@ -15,15 +16,12 @@ public class Ventana extends javax.swing.JFrame {
     private panelNotas pn;
     private panelProfesor pp;
     private panelInstituto pi;
-    public int idActual;
-
     
     public Ventana() 
     {
         initComponents();
 	setLocationRelativeTo(null);
 	
-	idActual=-1;
 	pa = new panelAlumnos(this);
 	paa = new panelAsignatura(this);
 	pn = new panelNotas(this);
@@ -112,6 +110,7 @@ public class Ventana extends javax.swing.JFrame {
         menuBD.setText("Conexión");
         menuBD.setFont(new java.awt.Font("DejaVu Sans Light", 1, 14)); // NOI18N
 
+        conectar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         conectar.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         conectar.setText("Conectar BD");
         conectar.addActionListener(new java.awt.event.ActionListener() {
@@ -121,6 +120,7 @@ public class Ventana extends javax.swing.JFrame {
         });
         menuBD.add(conectar);
 
+        desconectar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         desconectar.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         desconectar.setText("Desconectar BD");
         desconectar.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +130,7 @@ public class Ventana extends javax.swing.JFrame {
         });
         menuBD.add(desconectar);
 
+        salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, java.awt.event.InputEvent.CTRL_MASK));
         salir.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
@@ -167,18 +168,25 @@ public class Ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarActionPerformed
-	//Creamos una ventana de carga
-	carga.setLocationRelativeTo(null);
-	carga.setVisible(true);
-	//Carga de la BD
-	c = new Control(this);
-	c.start();
+	try
+	{
+	    //Creamos una ventana de carga
+	    carga.setLocationRelativeTo(null);
+	    carga.setVisible(true);
+	    //Carga de la BD
+	    c = new Control(this);
+	    c.start();
+	}
+	catch(UnknownServiceException e)
+	{
+	    HibernateUtil.getSessionFactory().openSession();
+	}
     }//GEN-LAST:event_conectarActionPerformed
 
     private void desconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desconectarActionPerformed
 	if(conectado)
 	{
-	    HibernateUtil.getSessionFactory().close();
+	    HibernateUtil.getSessionFactory().close();	    
 	    JOptionPane.showMessageDialog(null, "Base de datos desconectada");
 	}
 	else
@@ -268,6 +276,12 @@ public class Ventana extends javax.swing.JFrame {
         });
     }
 
+    public boolean isConectado() {
+	return conectado;
+    }
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu FAQ;
     private javax.swing.JButton btnCancelar;

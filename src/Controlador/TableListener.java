@@ -2,7 +2,6 @@ package Controlador;
 
 //@author chillaso
 
-import Vista.Ventana;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -13,24 +12,35 @@ import javax.swing.event.ListSelectionListener;
 public class TableListener implements ListSelectionListener {
 
     private final JTable tabla;
-    private final Ventana v;
+    public static Object[] params;
+    public static int celda;
 
-    public TableListener(Ventana v, JTable tabla) {
+    public TableListener(JTable tabla, int colums) {
 	this.tabla = tabla;
-	this.v=v;
+	params= new Object[colums];
     }      
 
     //Método que se ejecuta cada vez que seleccionamos una fila
     @Override
     public void valueChanged(ListSelectionEvent e) 
     {
-	//if (e.getValueIsAdjusting()) return; 
 	//Obtenemos el source del evento
 	ListSelectionModel lsm = (ListSelectionModel) e.getSource(); 
-	//Obtenemos la fila seleccionada
-	int celda = lsm.getMinSelectionIndex();
-	//Obtenemos el id, que siempre va a ser la primera columna de la tabla, lo parseamos y lo asignamos como idactual
-	v.idActual = Integer.parseInt(tabla.getValueAt(celda,0).toString());		
-	System.out.println(celda);
-    }
+	//Obtenemos la fila seleccionada	
+	try{
+	    celda = lsm.getMinSelectionIndex();
+	    //Obtenemos el id, que siempre va a ser la primera columna de la tabla, lo parseamos y lo asignamos como idactual	
+	    for(int i = 0; i<params.length;i++)
+	    {	    
+		params[i] = tabla.getValueAt(celda, i);	 
+	    }	
+	}
+	catch(ArrayIndexOutOfBoundsException ex)
+	{
+	    for(int i = 0; i<params.length;i++)
+	    {	    
+		params[i] = tabla.getValueAt(0, i);	 
+	    }		    
+	}
+    }    
 }
