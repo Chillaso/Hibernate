@@ -40,10 +40,10 @@ public class ProfesorImple implements ProfesorDAO{
 	c = s.createCriteria(Profesor.class, "prof")
 		    .createAlias("prof.id_instituto", "in")
 		    .setFetchMode("id_instituto",FetchMode.JOIN)
-		    .add(Restrictions.ilike("dni",dni))
-		    .add(Restrictions.ilike("nombre",nom))
-		    .add(Restrictions.ilike("apellido",ape))
-		    .add(Restrictions.ilike("in.nombre",in));	    
+		    .add(Restrictions.ilike("dni","%"+dni+"%"))
+		    .add(Restrictions.ilike("nombre","%"+nom+"%"))
+		    .add(Restrictions.ilike("apellido","%"+ape+"%"))
+		    .add(Restrictions.ilike("in.nombre","%"+in+"%"));	    
 
 	Collection<Profesor> profesores = (Collection<Profesor>) c.list();
 	s.close();
@@ -56,7 +56,7 @@ public class ProfesorImple implements ProfesorDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Profesor.class);
-	c.add(Restrictions.ilike("id_profesor", id_profesor));
+	c.add(Restrictions.ilike("id_profesor", "%"+id_profesor+"%"));
 	Profesor i = (Profesor) c.list().get(0);
 	s.close();
 	return i;	
@@ -70,9 +70,9 @@ public class ProfesorImple implements ProfesorDAO{
 	Criteria c = s.createCriteria(Profesor.class);
 	
 	if(dni)
-	    c.add(Restrictions.ilike("dni", nombre));
+	    c.add(Restrictions.ilike("dni", "%"+nombre+"%"));
 	else 
-	    c.add(Restrictions.ilike("nombre", nombre));
+	    c.add(Restrictions.ilike("nombre", "%"+nombre+"%"));
 	
 	Profesor p = (Profesor) c.list().get(0);
 	s.close();

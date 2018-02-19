@@ -36,8 +36,8 @@ public class InstitutoImple implements InstitutoDAO{
 	if(localidad.isEmpty()) localidad="%";
 
 	c = s.createCriteria(Instituto.class)
-		.add(Restrictions.ilike("nombre",nom))
-		.add(Restrictions.ilike("localidad",localidad));
+		.add(Restrictions.ilike("nombre","%"+nom+"%"))
+		.add(Restrictions.ilike("localidad","%"+localidad+"%"));
 	
 	Collection<Instituto> instis = (Collection<Instituto>) c.list();
 	s.close();
@@ -63,7 +63,7 @@ public class InstitutoImple implements InstitutoDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Instituto.class);
-	c.add(Restrictions.ilike("nombre", nombre));
+	c.add(Restrictions.ilike("nombre", "%"+nombre+"%"));
 	Instituto i = (Instituto) c.list().get(0);
 	s.close();
 	return i;	

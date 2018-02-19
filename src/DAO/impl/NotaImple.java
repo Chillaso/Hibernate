@@ -44,8 +44,8 @@ public class NotaImple implements NotaDAO{
 		    .createAlias("n.id_asig", "as")
 		    .setFetchMode("id_asig", FetchMode.JOIN)
 		    .setFetchMode("id_alum", FetchMode.JOIN)
-		    .add(Restrictions.ilike("al.nombre", alum))
-		    .add(Restrictions.ilike("as.nombre", asig))
+		    .add(Restrictions.ilike("al.nombre", "%"+alum+"%"))
+		    .add(Restrictions.ilike("as.nombre", "%"+asig+"%"))
 		    .add(Restrictions.gt("nota", nota));
 	}
 	else
@@ -58,53 +58,53 @@ public class NotaImple implements NotaDAO{
 		    .createAlias("n.id_asig", "as")
 		    .setFetchMode("id_asig", FetchMode.JOIN)
 		    .setFetchMode("id_alum", FetchMode.JOIN)
-		    .add(Restrictions.ilike("al.nombre", alum))
-		    .add(Restrictions.ilike("as.nombre", asig))
+		    .add(Restrictions.ilike("al.nombre", "%"+alum+"%"))
+		    .add(Restrictions.ilike("as.nombre", "%"+asig+"%"))
 		    .add(Restrictions.lt("nota", nota));
 		    break;
 		//MENOR IGUAL QUE
 	    	case -1:
 		    c = s.createCriteria(Nota.class, "n")
-			.createAlias("n.id_alum", "al")
-			.createAlias("n.id_asig", "as")
-			.setFetchMode("id_asig", FetchMode.JOIN)
-			.setFetchMode("id_alum", FetchMode.JOIN)
-			.add(Restrictions.ilike("al.nombre", alum))
-			.add(Restrictions.ilike("as.nombre", asig))
-			.add(Restrictions.le("nota", nota));
+		    .createAlias("n.id_alum", "al")
+		    .createAlias("n.id_asig", "as")
+		    .setFetchMode("id_asig", FetchMode.JOIN)
+		    .setFetchMode("id_alum", FetchMode.JOIN)
+		    .add(Restrictions.ilike("al.nombre", "%"+alum+"%"))
+		    .add(Restrictions.ilike("as.nombre", "%"+asig+"%"))
+		    .add(Restrictions.le("nota", nota));
 		    break;
 	    	//IGUAL
 		case 0:
 		    c = s.createCriteria(Nota.class, "n")
-			.createAlias("n.id_alum", "al")
-			.createAlias("n.id_asig", "as")
-			.setFetchMode("id_asig", FetchMode.JOIN)
-			.setFetchMode("id_alum", FetchMode.JOIN)
-			.add(Restrictions.ilike("al.nombre", alum))
-			.add(Restrictions.ilike("as.nombre", asig))
-			.add(Restrictions.eq("nota", nota));
+		    .createAlias("n.id_alum", "al")
+		    .createAlias("n.id_asig", "as")
+		    .setFetchMode("id_asig", FetchMode.JOIN)
+		    .setFetchMode("id_alum", FetchMode.JOIN)
+		    .add(Restrictions.ilike("al.nombre", "%"+alum+"%"))
+		    .add(Restrictions.ilike("as.nombre", "%"+asig+"%"))
+		    .add(Restrictions.eq("nota", nota));
 		    break;
 	    	//MAYOR IGUAL QUE
 		case 1:
 		    c = s.createCriteria(Nota.class, "n")
-			.createAlias("n.id_alum", "al")
-			.createAlias("n.id_asig", "as")
-			.setFetchMode("id_asig", FetchMode.JOIN)
-			.setFetchMode("id_alum", FetchMode.JOIN)
-			.add(Restrictions.ilike("al.nombre", alum))
-			.add(Restrictions.ilike("as.nombre", asig))
-			.add(Restrictions.ge("nota", nota));
+		    .createAlias("n.id_alum", "al")
+		    .createAlias("n.id_asig", "as")
+		    .setFetchMode("id_asig", FetchMode.JOIN)
+		    .setFetchMode("id_alum", FetchMode.JOIN)
+		    .add(Restrictions.ilike("al.nombre", "%"+alum+"%"))
+		    .add(Restrictions.ilike("as.nombre", "%"+asig+"%"))
+		    .add(Restrictions.ge("nota", nota));
 		    break;
 	    	//MAYOR QUE
 		case 2:
 		    c = s.createCriteria(Nota.class, "n")
-			.createAlias("n.id_alum", "al")
-			.createAlias("n.id_asig", "as")
-			.setFetchMode("id_asig", FetchMode.JOIN)
-			.setFetchMode("id_alum", FetchMode.JOIN)
-			.add(Restrictions.ilike("al.nombre", alum))
-			.add(Restrictions.ilike("as.nombre", asig))
-			.add(Restrictions.gt("nota", nota));
+		    .createAlias("n.id_alum", "al")
+		    .createAlias("n.id_asig", "as")
+		    .setFetchMode("id_asig", FetchMode.JOIN)
+		    .setFetchMode("id_alum", FetchMode.JOIN)
+		    .add(Restrictions.ilike("al.nombre", "%"+alum+"%"))
+		    .add(Restrictions.ilike("as.nombre", "%"+asig+"%"))
+		    .add(Restrictions.gt("nota", nota));
 		    break;
 	    }
 	}

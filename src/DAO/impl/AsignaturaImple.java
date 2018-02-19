@@ -48,9 +48,9 @@ public class AsignaturaImple implements AsignaturaDAO{
 		.createAlias("asig.id_instituto", "in")
 		.setFetchMode("id_instituto",FetchMode.JOIN)
 		.setFetchMode("id_profesor", FetchMode.JOIN)
-		.add(Restrictions.ilike("nombre",nom))
-		.add(Restrictions.ilike("prof.nombre",prof))
-		.add(Restrictions.ilike("in.nombre",in));	    
+		.add(Restrictions.ilike("nombre","%"+nom+"%"))
+		.add(Restrictions.ilike("prof.nombre","%"+prof+"%"))
+		.add(Restrictions.ilike("in.nombre","%"+in+"%"));	    
 	
 	Collection<Asignatura> asignaturas = (Collection<Asignatura>) c.list();
 	s.close();
@@ -77,9 +77,9 @@ public class AsignaturaImple implements AsignaturaDAO{
 	Criteria c = s.createCriteria(Asignatura.class);
 	
 	if(profesor)
-	    c.add(Restrictions.ilike("profesor", identificador));
+	    c.add(Restrictions.ilike("profesor", "%"+identificador+"%"));
 	else 
-	    c.add(Restrictions.ilike("nombre", identificador));
+	    c.add(Restrictions.ilike("nombre", "%"+identificador+"%"));
 	
 	Asignatura a = (Asignatura) c.list().get(0);
 	s.close();
@@ -94,7 +94,7 @@ public class AsignaturaImple implements AsignaturaDAO{
 		.createAlias("asig.instituto", "i")
 		.setFetchMode("profesor", FetchMode.JOIN)
 		.setFetchMode("instituto", FetchMode.JOIN)
-		.add(Restrictions.ilike("i.nombre",nombre));
+		.add(Restrictions.ilike("i.nombre","%"+nombre+"%"));
 	Instituto instituto = (Instituto) consulta.list().get(0);
 	s.close();	
 	return instituto;
@@ -108,7 +108,7 @@ public class AsignaturaImple implements AsignaturaDAO{
 		.createAlias("asig.profesor", "p")
 		.setFetchMode("profesor", FetchMode.JOIN)
 		.setFetchMode("instituto", FetchMode.JOIN)
-		.add(Restrictions.ilike("p.nombre",nombre));
+		.add(Restrictions.ilike("p.nombre","%"+nombre+"%"));
 	Profesor profesor = (Profesor) consulta.list().get(0);
 	s.close();	
 	return profesor;

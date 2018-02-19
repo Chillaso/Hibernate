@@ -46,22 +46,22 @@ public class AlumnoImple implements AlumnoDAO{
 	    c = s.createCriteria(Alumno.class, "alum")
 			.createAlias("alum.id_instituto", "in")
 			.setFetchMode("id_instituto",FetchMode.JOIN)
-			.add(Restrictions.ilike("dni",dni))
-			.add(Restrictions.ilike("nombre",nom))
-			.add(Restrictions.ilike("apellido",ape))
+			.add(Restrictions.ilike("dni","%"+dni+"%"))
+			.add(Restrictions.ilike("nombre","%"+nom+"%"))
+			.add(Restrictions.ilike("apellido","%"+ape+"%"))
 			.add(Restrictions.gt("edad",edad))		    
-			.add(Restrictions.ilike("in.nombre",in));	    
+			.add(Restrictions.ilike("in.nombre","%"+in+"%"));	    
 	}
 	else
 	{
 	    c = s.createCriteria(Alumno.class, "alum")
 			.createAlias("alum.id_instituto", "in")
 			.setFetchMode("id_instituto",FetchMode.JOIN)
-			.add(Restrictions.ilike("dni",dni))
-			.add(Restrictions.ilike("nombre",nom))
-			.add(Restrictions.ilike("apellido",ape))
+			.add(Restrictions.ilike("dni","%"+dni+"%"))
+			.add(Restrictions.ilike("nombre","%"+nom+"%"))
+			.add(Restrictions.ilike("apellido","%"+ape+"%"))
 			.add(Restrictions.eq("edad",edad))
-			.add(Restrictions.ilike("in.nombre",in));	    
+			.add(Restrictions.ilike("in.nombre","%"+in+"%"));	    
 	}
 	Collection<Alumno> alumnos = (Collection<Alumno>) c.list();
 	s.close();
@@ -88,9 +88,9 @@ public class AlumnoImple implements AlumnoDAO{
 	Criteria c = s.createCriteria(Alumno.class);
 	
 	if(dni)
-	    c.add(Restrictions.ilike("dni", identificador));
+	    c.add(Restrictions.ilike("dni", "%"+identificador+"%"));
 	else 
-	    c.add(Restrictions.ilike("nombre", identificador));
+	    c.add(Restrictions.ilike("nombre", "%"+identificador+"%"));
 	
 	Alumno a = (Alumno) c.list().get(0);
 	s.close();
@@ -102,7 +102,7 @@ public class AlumnoImple implements AlumnoDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Instituto.class)
-		.add(Restrictions.ilike("nombre",nombre));
+		.add(Restrictions.ilike("nombre","%"+nombre+"%"));
 	Instituto i = (Instituto) c.list().get(0);
 	s.close();	
 	return i;
