@@ -4,6 +4,9 @@ import Controlador.Control;
 import Controlador.TableListener;
 import Modelo.Alumno;
 import Modelo.Instituto;
+import Util.cambioImposibleException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -244,11 +247,18 @@ public class panelInstituto extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        Object[] params = tl.getParams();
-        String id = (String) params[1];
-        Instituto a = Control.obtenerInstituto(id);
-        Control.eliminarInstituto(a);
-        actualizarTabla();
+	try 
+	{
+	    Object[] params = tl.getParams();
+	    String id = (String) params[1];
+	    Instituto a = Control.obtenerInstituto(id);
+	    Control.eliminarInstituto(a);
+	    actualizarTabla();
+	} 
+	catch (cambioImposibleException ex) 
+	{
+	    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
     }//GEN-LAST:event_deleteActionPerformed
 
     private void actualizarTabla()
