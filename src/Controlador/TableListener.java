@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionListener;
 public class TableListener implements ListSelectionListener {
 
     private final JTable tabla;
-    public static Object[] params;
+    private Object[] params;
     public static int celda;
 
     public TableListener(JTable tabla, int colums) {
@@ -27,7 +27,8 @@ public class TableListener implements ListSelectionListener {
 	//Obtenemos el source del evento
 	ListSelectionModel lsm = (ListSelectionModel) e.getSource(); 
 	//Obtenemos la fila seleccionada	
-	try{
+	try
+	{
 	    celda = lsm.getMinSelectionIndex();
 	    //Obtenemos el id, que siempre va a ser la primera columna de la tabla, lo parseamos y lo asignamos como idactual	
 	    for(int i = 0; i<params.length;i++)
@@ -43,4 +44,10 @@ public class TableListener implements ListSelectionListener {
 	    }		    
 	}
     }    
+
+    public Object[] getParams() {
+	return params;
+    }
+    
+    
 }

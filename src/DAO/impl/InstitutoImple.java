@@ -5,9 +5,9 @@ package DAO.impl;
 import DAO.InstitutoDAO;
 import Modelo.Instituto;
 import Util.HibernateUtil;
+import Util.cambioImposibleException;
 import java.util.Collection;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -58,12 +58,14 @@ public class InstitutoImple implements InstitutoDAO{
     }
 
     @Override
-    public Instituto getInstituto(String nombre) 
+    public Instituto getInstituto(String nombre) throws cambioImposibleException
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Instituto.class);
-	c.add(Restrictions.ilike("nombre", "%"+nombre+"%"));
+	c.add(Restrictions.ilike("nombre", nombre));
+	if(c.list().isEmpty())
+	    throw new cambioImposibleException("Error, no se ha encontrado instituto con esos datos");
 	Instituto i = (Instituto) c.list().get(0);
 	s.close();
 	return i;	

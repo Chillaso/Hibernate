@@ -4,6 +4,7 @@ import Controlador.TableListener;
 import Controlador.Control;
 import Modelo.Alumno;
 import Modelo.Instituto;
+import Util.cambioImposibleException;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -15,6 +16,7 @@ public class panelAlumnos extends javax.swing.JPanel{
 
     private Ventana v;
     private boolean insertar;
+    private TableListener tl;
     
     public panelAlumnos(Ventana v) {
         this.v=v;	
@@ -23,13 +25,12 @@ public class panelAlumnos extends javax.swing.JPanel{
 	
 	//EDICION TABLA		
 	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	tabla.getSelectionModel().addListSelectionListener(new TableListener(tabla,6));
+	tl = new TableListener(tabla,6);
+	tabla.getSelectionModel().addListSelectionListener(tl);
 	
 	tabla.setComponentPopupMenu(popup);
 	popup.add(delete);
-	
-	instituto.setModel(Control.rellenarCombo());
-    }
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -254,33 +255,43 @@ public class panelAlumnos extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-	if(!insertar)
-	{	
-	    int e=-1;
-	    if(!edad.getText().isEmpty())
-		e = Integer.parseInt(edad.getText());
-	    
-	    tabla.setModel(Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getSelectedItem().toString()));	   
-	}
-	else
-	{	    
-	    if(!dni.getText().isEmpty() && !nombre.getText().isEmpty() && !ape.getText().isEmpty() 
-		    && !instituto.getSelectedItem().toString().isEmpty() && !edad.getText().isEmpty())
-	    {
-		int e = Integer.parseInt(edad.getText());
-		Instituto i = Control.obtenerInstituto(instituto.getSelectedItem().toString());
-		Control.insertAlumno(dni.getText(), nombre.getText(), ape.getText(), e, i.getNombre());
-		
+	try{
+	    if(!insertar)
+	    {	
+		int e=-1;
+		if(!edad.getText().isEmpty())
+		    e = Integer.parseInt(edad.getText());
+
+		tabla.setModel(Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getSelectedItem().toString()));	   
 	    }
-	    actualizarTabla();
+	    else
+	    {	    
+		if(!dni.getText().isEmpty() && !nombre.getText().isEmpty() && !ape.getText().isEmpty() 
+			&& !instituto.getSelectedItem().toString().isEmpty() && !edad.getText().isEmpty())
+		{
+		    int e = Integer.parseInt(edad.getText());
+		    Instituto i = Control.obtenerInstituto(instituto.getSelectedItem().toString());
+		    Control.insertAlumno(dni.getText(), nombre.getText(), ape.getText(), e, i.getNombre());
+		    actualizarTabla();		
+		}
+		else
+		{
+		    JOptionPane.showMessageDialog(null, "Error, comlete todos los campos","Error",JOptionPane.ERROR_MESSAGE);
+		}	    
+	    }
+	    dialogAlum.dispose();
+	    dialogAlum.setVisible(false);
 	}
-	dialogAlum.dispose();
-	dialogAlum.setVisible(false);
+	catch(cambioImposibleException ex)
+	{
+	    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+	}
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 	if(v.isConectado())
 	{
+	    instituto.setModel(Control.rellenarCombo());
 	    insertar=true;
 	    dialogAlum.setVisible(true);
 	}
@@ -292,6 +303,7 @@ public class panelAlumnos extends javax.swing.JPanel{
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
 	if(v.isConectado())
 	{
+	    instituto.setModel(Control.rellenarCombo());
 	    insertar=false;
 	    dialogAlum.setVisible(true);
 	}	
@@ -301,15 +313,21 @@ public class panelAlumnos extends javax.swing.JPanel{
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-	Object[] params = TableListener.params;
-	int id = (int) params[0];
-	String d = (String) params[1];
-	String n = (String) params[2];
-	String a = (String) params[3];
-	int e = (int) params[4];
-	String i =(String) params[5];
-	Control.updateAlumno(id, d, n, a, e, i);	
-	actualizarTabla();
+	try{
+	    Object[] params = tl.getParams();
+	    int id = (int) params[0];
+	    String d = (String) params[1];
+	    String n = (String) params[2];
+	    String a = (String) params[3];
+	    int e = (int) params[4];
+	    String i =(String) params[5];
+	    Control.updateAlumno(id, d, n, a, e, i);	
+	    actualizarTabla();
+	}
+	catch(cambioImposibleException ex)
+	{
+	    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);	    
+	}
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void tablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMousePressed
@@ -320,7 +338,7 @@ public class panelAlumnos extends javax.swing.JPanel{
     }//GEN-LAST:event_tablaMousePressed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-	Object[] params = TableListener.params;
+	Object[] params = tl.getParams();
 	int id = (int) params[0];
 	Alumno a = Control.obtenerAlumno(id);
 	Control.eliminarAlumno(a);	

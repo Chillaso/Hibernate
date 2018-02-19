@@ -42,15 +42,12 @@ public class Ventana extends javax.swing.JFrame {
         carga = new javax.swing.JDialog();
         lblcargar = new javax.swing.JLabel();
         progreso = new javax.swing.JProgressBar();
-        btnCancelar = new javax.swing.JButton();
         tabPane = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuBD = new javax.swing.JMenu();
         conectar = new javax.swing.JMenuItem();
         desconectar = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenuItem();
-        FAQ = new javax.swing.JMenu();
-        verFAQ = new javax.swing.JMenuItem();
 
         carga.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         carga.setTitle("Cargando...");
@@ -62,28 +59,15 @@ public class Ventana extends javax.swing.JFrame {
 
         progreso.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        btnCancelar.setFont(new java.awt.Font("The Light Font", 1, 24)); // NOI18N
-        btnCancelar.setText("CANCELAR");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout cargaLayout = new javax.swing.GroupLayout(carga.getContentPane());
         carga.getContentPane().setLayout(cargaLayout);
         cargaLayout.setHorizontalGroup(
             cargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cargaLayout.createSequentialGroup()
-                .addGroup(cargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(cargaLayout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addGroup(cargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblcargar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(progreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(cargaLayout.createSequentialGroup()
-                        .addGap(273, 273, 273)
-                        .addComponent(btnCancelar)))
+                .addGap(115, 115, 115)
+                .addGroup(cargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblcargar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(progreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         cargaLayout.setVerticalGroup(
@@ -93,9 +77,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(lblcargar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addComponent(progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelar)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -141,15 +123,6 @@ public class Ventana extends javax.swing.JFrame {
         menuBD.add(salir);
 
         jMenuBar1.add(menuBD);
-
-        FAQ.setText("FAQ");
-        FAQ.setFont(new java.awt.Font("DejaVu Sans Light", 1, 14)); // NOI18N
-
-        verFAQ.setFont(new java.awt.Font("DejaVu Sans Light", 1, 12)); // NOI18N
-        verFAQ.setText("Ver FAQ");
-        FAQ.add(verFAQ);
-
-        jMenuBar1.add(FAQ);
 
         setJMenuBar(jMenuBar1);
 
@@ -200,19 +173,6 @@ public class Ventana extends javax.swing.JFrame {
 	HibernateUtil.getSessionFactory().close();
 	System.exit(0);
     }//GEN-LAST:event_salirActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-	try
-	{
-	    c.interrupt();
-	    HibernateUtil.getSessionFactory().close();
-	}
-	catch(HibernateException e)
-	{
-	    System.out.println(e.getMessage());
-	    System.exit(-1);
-	}
-    }//GEN-LAST:event_btnCancelarActionPerformed
     
     private void actualizar()
     {
@@ -283,8 +243,6 @@ public class Ventana extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu FAQ;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JDialog carga;
     private javax.swing.JMenuItem conectar;
     private javax.swing.JMenuItem desconectar;
@@ -294,7 +252,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JProgressBar progreso;
     private javax.swing.JMenuItem salir;
     private javax.swing.JTabbedPane tabPane;
-    private javax.swing.JMenuItem verFAQ;
     // End of variables declaration//GEN-END:variables
 
 }

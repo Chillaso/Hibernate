@@ -1,7 +1,15 @@
 package Vista;
 
 import Controlador.Control;
+import Controlador.TableListener;
+import Modelo.Alumno;
+import Modelo.Profesor;
+import Util.cambioImposibleException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 
 //@author chillaso
@@ -10,12 +18,19 @@ public class panelProfesor extends javax.swing.JPanel{
 
     private Ventana v;
     private boolean insertar;
+    private TableListener tl;
     
     public panelProfesor(Ventana v) {
         initComponents();
 	this.v=v;
 	dialogProfesor.setLocationRelativeTo(null);
-	//tabla.putClientProperty("terminateEditOnFocusLost", true);	
+	
+	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	tl = new TableListener(tabla,5);
+	tabla.getSelectionModel().addListSelectionListener(tl);
+	
+	tabla.setComponentPopupMenu(popup);
+	popup.add(delete);	
     }
     
     @SuppressWarnings("unchecked")
@@ -33,10 +48,14 @@ public class panelProfesor extends javax.swing.JPanel{
         dni = new javax.swing.JTextField();
         ape = new javax.swing.JTextField();
         insti = new javax.swing.JTextField();
+        popup = new javax.swing.JPopupMenu();
+        delete = new javax.swing.JMenuItem();
+        eliminar = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnFiltrar = new javax.swing.JButton();
-        btnFiltrar1 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         dialogProfesor.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogProfesor.setTitle("Profesor");
@@ -132,6 +151,16 @@ public class panelProfesor extends javax.swing.JPanel{
                 .addGap(65, 65, 65))
         );
 
+        delete.setText("Eliminar");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+        popup.add(delete);
+
+        eliminar.setText("Eliminar");
+
         setBackground(new java.awt.Color(204, 255, 204));
         setPreferredSize(new java.awt.Dimension(875, 675));
 
@@ -160,9 +189,23 @@ public class panelProfesor extends javax.swing.JPanel{
             }
         });
 
-        btnFiltrar1.setBackground(new java.awt.Color(255, 255, 153));
-        btnFiltrar1.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
-        btnFiltrar1.setText("add Profesor");
+        btnAdd.setBackground(new java.awt.Color(255, 255, 153));
+        btnAdd.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
+        btnAdd.setText("add Profesor");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnGuardar.setBackground(new java.awt.Color(255, 255, 153));
+        btnGuardar.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -173,7 +216,9 @@ public class panelProfesor extends javax.swing.JPanel{
                 .addContainerGap()
                 .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnFiltrar1)
+                .addComponent(btnGuardar)
+                .addGap(250, 250, 250)
+                .addComponent(btnAdd)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -183,14 +228,21 @@ public class panelProfesor extends javax.swing.JPanel{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFiltrar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-	dialogProfesor.setVisible(true);
-	insertar=false;
+	if(v.isConectado())
+	{
+	    insertar=false;
+	    dialogProfesor.setVisible(true);
+	}	
+	else{
+	    JOptionPane.showMessageDialog(null, "Error, conectese primero", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -202,6 +254,49 @@ public class panelProfesor extends javax.swing.JPanel{
 	dialogProfesor.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+	try 
+	{
+	    Object[] params = tl.getParams();
+	    int id = (int) params[0];
+	    String dni = (String) params[1];
+	    String nombre = (String) params[2];
+	    String apellido = (String) params[3];
+	    String instituto = (String) params[4];
+	    Control.updateProfesor(id, dni, nombre, apellido, instituto);
+	    actualizarTabla();
+	}
+	catch (cambioImposibleException ex) 
+	{
+	    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error de conexión", JOptionPane.ERROR_MESSAGE);
+    	}
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        Object[] params = tl.getParams();
+        int id = (int) params[0];
+        Profesor a = Control.obtenerProfesor(id);
+        Control.eliminarProfesor(a);
+        actualizarTabla();
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+	if(v.isConectado())
+	{
+	    insertar=true;
+	    dialogProfesor.setVisible(true);
+	}	
+	else{
+	    JOptionPane.showMessageDialog(null, "Error, conectese primero", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void actualizarTabla()
+    {
+	TableListener.celda=-1;
+	tabla.setModel(Control.obtenerProfesores());
+    }    
+    
     public JTable getTabla() {
 	return tabla;
     }    
@@ -209,10 +304,13 @@ public class panelProfesor extends javax.swing.JPanel{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ape;
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnFiltrar;
-    private javax.swing.JButton btnFiltrar1;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JMenuItem delete;
     private javax.swing.JDialog dialogProfesor;
     private javax.swing.JTextField dni;
+    private javax.swing.JMenuItem eliminar;
     private javax.swing.JTextField insti;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAsig;
@@ -221,6 +319,7 @@ public class panelProfesor extends javax.swing.JPanel{
     private javax.swing.JLabel lblAsig3;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JTextField nombre;
+    private javax.swing.JPopupMenu popup;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 

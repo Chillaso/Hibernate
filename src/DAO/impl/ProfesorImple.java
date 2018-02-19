@@ -56,7 +56,7 @@ public class ProfesorImple implements ProfesorDAO{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Profesor.class);
-	c.add(Restrictions.ilike("id_profesor", "%"+id_profesor+"%"));
+	c.add(Restrictions.eq("id_profesor", id_profesor));
 	Profesor i = (Profesor) c.list().get(0);
 	s.close();
 	return i;	

@@ -6,6 +6,7 @@ import DAO.AlumnoDAO;
 import Modelo.Alumno;
 import Modelo.Instituto;
 import Util.HibernateUtil;
+import Util.cambioImposibleException;
 import java.util.Collection;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -28,6 +29,7 @@ public class AlumnoImple implements AlumnoDAO{
 	return list;
     }
     
+    @Override
     public Collection<Alumno> filtrarAlum(String dni, String nom, String ape, int edad, String in)
     {
 	
@@ -81,7 +83,7 @@ public class AlumnoImple implements AlumnoDAO{
     }
 
     @Override
-    public Alumno getAlumno(String identificador, boolean dni) 
+    public Alumno getAlumno(String identificador, boolean dni) throws cambioImposibleException
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
@@ -92,17 +94,21 @@ public class AlumnoImple implements AlumnoDAO{
 	else 
 	    c.add(Restrictions.ilike("nombre", "%"+identificador+"%"));
 	
+	if(c.list().isEmpty())
+	    throw new cambioImposibleException("Error no hay ningún alumno con esos datos");
 	Alumno a = (Alumno) c.list().get(0);
 	s.close();
 	return a;
     }
     
     @Override
-    public Instituto getInstituto(String nombre) {
+    public Instituto getInstituto(String nombre) throws cambioImposibleException{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Instituto.class)
 		.add(Restrictions.ilike("nombre","%"+nombre+"%"));
+	if(c.list().isEmpty())
+	    throw new cambioImposibleException("Error, no hay institutos con esos datos");
 	Instituto i = (Instituto) c.list().get(0);
 	s.close();	
 	return i;

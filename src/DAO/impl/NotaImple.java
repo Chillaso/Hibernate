@@ -112,5 +112,23 @@ public class NotaImple implements NotaDAO{
 	Collection<Nota> notas = (Collection<Nota>) c.list();
 	s.close();
 	return notas;
-    }        
+    }               
+    
+    public void update(Nota nota)
+    {
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	s.update(nota);
+	s.getTransaction().commit();
+	s.close();
+    }
+    
+    public void insert(Nota nota)
+    {
+	Session s = HibernateUtil.getSessionFactory().openSession();
+	s.beginTransaction();
+	s.save(nota);
+	s.getTransaction().commit();
+	s.close();	
+    }
 }

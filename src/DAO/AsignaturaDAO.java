@@ -3,16 +3,16 @@ package DAO;
 import Modelo.Asignatura;
 import Modelo.Instituto;
 import Modelo.Profesor;
-import java.util.ArrayList;
+import Util.cambioImposibleException;
 import java.util.Collection;
 
 public interface AsignaturaDAO {
     
     public Collection<Asignatura> getAll();
     public Asignatura getAsignatura(int id_asig);
-    public Asignatura getAsignatura(String nombre, boolean profesor);
-    public Instituto getInstituto(String nombre);
-    public Profesor getProfesor(String nombre);
+    //public Asignatura getAsignatura(String nombre, boolean profesor);
+    public Instituto getInstituto(String nombre) throws cambioImposibleException;
+    public Profesor getProfesor(String nombre) throws cambioImposibleException;
     public void insert(Asignatura a);
     public void delete(Asignatura a);
     public void update(Asignatura a);  

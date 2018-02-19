@@ -10,6 +10,7 @@ import Modelo.Asignatura;
 import Modelo.Instituto;
 import Modelo.Nota;
 import Modelo.Profesor;
+import Util.cambioImposibleException;
 import Vista.Ventana;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,12 +95,12 @@ public class Control extends Thread{
 	return a.getAlumno(id);	
     }
     
-    public static Alumno obtenerAlumno(String identificador, boolean dni)
+    public static Alumno obtenerAlumno(String identificador, boolean dni) throws cambioImposibleException
     {
 	return new AlumnoImple().getAlumno(identificador, dni);
     }
     
-    public static boolean insertAlumno(String dni, String nombre, String ape, int edad, String i)
+    public static boolean insertAlumno(String dni, String nombre, String ape, int edad, String i) throws cambioImposibleException
     {	
 	if(dni.length()==9 && edad > 0 && edad < 120 && !nombre.isEmpty() &&
 		!ape.isEmpty())
@@ -114,7 +115,7 @@ public class Control extends Thread{
 	    return false;
     }    
     
-    public static boolean updateAlumno(int id, String dni, String nombre, String ape, int edad, String i)
+    public static boolean updateAlumno(int id, String dni, String nombre, String ape, int edad, String i) throws cambioImposibleException
     {	
 	if(dni.length()==9 && edad > 0 && edad < 120 && !nombre.isEmpty() &&
 		!ape.isEmpty())
@@ -190,12 +191,12 @@ public class Control extends Thread{
 	return a.getAsignatura(id);	
     }
     
-    public static Asignatura obtenerAsignatura(String identificador, boolean profesor)
-    {
-	return new AsignaturaImple().getAsignatura(identificador, profesor);
-    }
+//    public static Asignatura obtenerAsignatura(String identificador, boolean profesor)
+//    {
+//	return new AsignaturaImple().getAsignatura(identificador, profesor);
+//    }
     
-    public static boolean insertAsignatura(String nombre, String profesor, String instituto)
+    public static boolean insertAsignatura(String nombre, String profesor, String instituto) throws cambioImposibleException
     {	
 	if(!nombre.isEmpty() && !profesor.isEmpty() && !instituto.isEmpty())
 	{
@@ -210,7 +211,7 @@ public class Control extends Thread{
 	    return false;
     }    
     
-    public static boolean updateAsignatura(int id,String nombre, String profesor, String instituto)
+    public static boolean updateAsignatura(int id,String nombre, String profesor, String instituto) throws cambioImposibleException
     {	
 	if(!nombre.isEmpty() && !profesor.isEmpty() && !instituto.isEmpty())
 	{	 
@@ -271,19 +272,29 @@ public class Control extends Thread{
 	return modelo;	
     }
     
-    /*public static DefaultTableModel notasAlum(Alumno a)
+    public static void updateNotas(String al, String as, int n) throws cambioImposibleException
     {
+	AlumnoImple ai = new AlumnoImple();
+	Alumno a = ai.getAlumno(al, false);
+	
+	AsignaturaImple asi = new AsignaturaImple();
+	Asignatura asig = asi.getAsignatura(as);
+	
 	NotaImple ni = new NotaImple();
-	Collection<Nota> notas = ni.getNotasAlumnos(a);
-	return crearModeloNotas(notas);
+	Nota nota = new Nota(a,asig,n);
+	ni.update(nota);
     }
     
-    public static DefaultTableModel notasAsig(Asignatura a)
+    public static void insertNotas(String al, String as, int n) throws cambioImposibleException
     {
+	AlumnoImple ai = new AlumnoImple();
+	Alumno a = ai.getAlumno(al, false);
+	AsignaturaImple asi = new AsignaturaImple();
+	Asignatura asig = asi.getAsignatura(as);
 	NotaImple ni = new NotaImple();
-	Collection<Nota> notas = ni.getNotasAsignatura(a);
-	return crearModeloNotas(notas);
-    }*/
+	Nota nota = new Nota(a,asig,n);
+	ni.insert(nota);	
+    }
     
     private static DefaultTableModel crearModeloNotas(Collection<Nota> notas)
     {
@@ -334,6 +345,23 @@ public class Control extends Thread{
 	return modelo;
     }
     
+    public static Profesor obtenerProfesor(int id)
+    {
+	ProfesorImple pi = new ProfesorImple();
+	return pi.getProfesor(id);
+    }
+    
+    public static void eliminarProfesor(Profesor p)
+    {
+	new ProfesorImple().delete(p);
+    }
+    
+    public static void updateProfesor(int id, String dni, String nombre, String apellido, String i) throws cambioImposibleException
+    {
+	Instituto instituto = new InstitutoImple().getInstituto(i);
+	new ProfesorImple().update(new Profesor(id,dni,nombre,apellido,instituto));
+    }
+    
     //------------------INSTITUTOS----------------
     
     public static DefaultTableModel obtenerInstitutos()
@@ -355,7 +383,7 @@ public class Control extends Thread{
 	return modelo;
     }
     
-    public static Instituto obtenerInstituto(String nombre)
+    public static Instituto obtenerInstituto(String nombre) throws cambioImposibleException
     {
 	InstitutoImple ii = new InstitutoImple();
 	Instituto i = ii.getInstituto(nombre);
@@ -383,5 +411,22 @@ public class Control extends Thread{
 	}
 	
 	return modelo;
+    }
+    
+    public static void updateInstituto(int id, String nombre, String localidad)
+    {
+	InstitutoImple ii = new InstitutoImple();
+	Instituto i = new Instituto(id,nombre,localidad);
+	ii.update(i);
+    }
+    
+    public static void eliminarInstituto(Instituto i)
+    {
+	new InstitutoImple().delete(i);
+    }
+    
+    public static void insertInstituto(String nombre, String localidad)
+    {
+	new InstitutoImple().insert(new Instituto(nombre,localidad));
     }
 }

@@ -3,19 +3,30 @@ package Vista;
 //@author chillaso
 
 import Controlador.Control;
+import Controlador.TableListener;
+import Util.cambioImposibleException;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
  
 public class panelNotas extends javax.swing.JPanel{
 
     private Ventana v;
     private boolean insertar;
+    private TableListener tl;
     private final int[] COMPARADOR = new int[]{-2,-1,0,1,2};
     
     public panelNotas(Ventana v) {
         this.v=v;
 	initComponents();
 	dialogNota.setLocationRelativeTo(null);
+	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	tl = new TableListener(tabla,3);
+	tabla.getSelectionModel().addListSelectionListener(tl);
+	
+	tabla.setComponentPopupMenu(popup);
+	popup.add(delete);	
     }
 
     @SuppressWarnings("unchecked")
@@ -32,10 +43,14 @@ public class panelNotas extends javax.swing.JPanel{
         alum = new javax.swing.JTextField();
         nota = new javax.swing.JTextField();
         comparador = new javax.swing.JComboBox<>();
+        popup = new javax.swing.JPopupMenu();
+        delete = new javax.swing.JMenuItem();
+        eliminar = new javax.swing.JMenuItem();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         btnFiltrar = new javax.swing.JButton();
         btnAñadir = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         dialogNota.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogNota.setTitle("Notas");
@@ -118,6 +133,16 @@ public class panelNotas extends javax.swing.JPanel{
                 .addGap(17, 17, 17))
         );
 
+        delete.setText("Eliminar");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+        popup.add(delete);
+
+        eliminar.setText("Eliminar");
+
         setBackground(new java.awt.Color(204, 255, 204));
 
         tabla.setBackground(new java.awt.Color(204, 255, 204));
@@ -148,13 +173,29 @@ public class panelNotas extends javax.swing.JPanel{
         btnAñadir.setBackground(new java.awt.Color(255, 255, 153));
         btnAñadir.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
         btnAñadir.setText("Add Nota");
+        btnAñadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirActionPerformed(evt);
+            }
+        });
+
+        btnGuardar.setBackground(new java.awt.Color(255, 255, 153));
+        btnGuardar.setFont(new java.awt.Font("The Light Font", 1, 18)); // NOI18N
+        btnGuardar.setText("guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(764, Short.MAX_VALUE)
+                .addContainerGap(387, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addGap(276, 276, 276)
                 .addComponent(btnAñadir)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +209,9 @@ public class panelNotas extends javax.swing.JPanel{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(624, Short.MAX_VALUE)
-                .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -180,9 +223,18 @@ public class panelNotas extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-	dialogNota.setVisible(true);
+	if(v.isConectado())
+	{
+	    insertar=false;
+	    dialogNota.setVisible(true);
+	}	
+	else{
+	    JOptionPane.showMessageDialog(null, "Error, conectese primero", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
+    
+    
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 	if(!insertar)
 	{
@@ -192,10 +244,60 @@ public class panelNotas extends javax.swing.JPanel{
 	    int c = COMPARADOR[comparador.getSelectedIndex()];
 	    tabla.setModel(Control.filtrarNotas(asig.getText(),alum.getText(), n, c));
 	}
+	else
+	{
+	    if(!alum.getText().isEmpty() && !asig.getText().isEmpty() && !nota.getText().isEmpty())
+	    {
+		try 
+		{
+		    Control.insertNotas(alum.getText(), asig.getText(), Integer.parseInt(nota.getText()));
+		    actualizarTabla();
+		} 
+		catch (cambioImposibleException ex) 
+		{
+		    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);	    
+		}
+	    }
+	}
 	dialogNota.dispose();
 	dialogNota.setVisible(false);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+	try {
+	    Object[] params = tl.getParams();
+	    String al = (String) params[0];
+	    String as = (String) params[1];
+	    int no = Integer.parseInt((String)params[2]);
+	    Control.updateNotas(al, as, no);
+	    actualizarTabla();
+	} catch (cambioImposibleException ex) 
+	{
+	    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);	    
+	}
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+	JOptionPane.showMessageDialog(null, "No se puede borrar anda aquí","Error",JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
+	if(v.isConectado())
+	{
+	    insertar=true;
+	    dialogNota.setVisible(true);
+	}	
+	else{
+	    JOptionPane.showMessageDialog(null, "Error, conectese primero", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+	}
+    }//GEN-LAST:event_btnAñadirActionPerformed
+
+    private void actualizarTabla()
+    {
+	TableListener.celda=-1;
+	tabla.setModel(Control.obtenerNotas());
+    }    
+    
     public JTable getTabla() {
 	return tabla;
     }    
@@ -206,14 +308,18 @@ public class panelNotas extends javax.swing.JPanel{
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAñadir;
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> comparador;
+    private javax.swing.JMenuItem delete;
     private javax.swing.JDialog dialogNota;
+    private javax.swing.JMenuItem eliminar;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAsig;
     private javax.swing.JLabel lblAsig1;
     private javax.swing.JLabel lblAsig2;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JTextField nota;
+    private javax.swing.JPopupMenu popup;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 

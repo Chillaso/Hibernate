@@ -9,6 +9,7 @@ import Modelo.Instituto;
 import Modelo.Nota;
 import Modelo.Profesor;
 import Util.HibernateUtil;
+import Util.cambioImposibleException;
 import java.util.Collection;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -68,47 +69,59 @@ public class AsignaturaImple implements AsignaturaDAO{
 	s.close();
 	return a;
     }
-
-    @Override
-    public Asignatura getAsignatura(String identificador, boolean profesor) 
+    
+    
+    public Asignatura getAsignatura(String nombre) throws cambioImposibleException
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
 	Criteria c = s.createCriteria(Asignatura.class);
-	
-	if(profesor)
-	    c.add(Restrictions.ilike("profesor", "%"+identificador+"%"));
-	else 
-	    c.add(Restrictions.ilike("nombre", "%"+identificador+"%"));
-	
+	c.add(Restrictions.eq("nombre", nombre));
+	if(c.list().isEmpty())
+	    throw new cambioImposibleException("Error, no hay ninguna asignatura con esos datos");
 	Asignatura a = (Asignatura) c.list().get(0);
 	s.close();
 	return a;
-    }        
+    }    
+
+//    @Override
+//    public Asignatura getAsignatura(String identificador, boolean profesor) 
+//    {
+//	Session s = HibernateUtil.getSessionFactory().openSession();
+//	s.beginTransaction();
+//	Criteria c = s.createCriteria(Asignatura.class);
+//	
+//	if(profesor)
+//	    c.add(Restrictions.ilike("profesor", "%"+identificador+"%"));
+//	else 
+//	    c.add(Restrictions.ilike("nombre", "%"+identificador+"%"));
+//	
+//	Asignatura a = (Asignatura) c.list().get(0);
+//	s.close();
+//	return a;
+//    }        
 
     @Override
-    public Instituto getInstituto(String nombre) {
+    public Instituto getInstituto(String nombre) throws cambioImposibleException{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
-	Criteria consulta = s.createCriteria(Asignatura.class,"asig")
-		.createAlias("asig.instituto", "i")
-		.setFetchMode("profesor", FetchMode.JOIN)
-		.setFetchMode("instituto", FetchMode.JOIN)
-		.add(Restrictions.ilike("i.nombre","%"+nombre+"%"));
+	Criteria consulta = s.createCriteria(Instituto.class)
+		.add(Restrictions.ilike("nombre",nombre));
+	if(consulta.list().isEmpty())
+	    throw new cambioImposibleException("Error, no hay un instituto con estos datos");
 	Instituto instituto = (Instituto) consulta.list().get(0);
 	s.close();	
 	return instituto;
     }
 
     @Override
-    public Profesor getProfesor(String nombre) {
+    public Profesor getProfesor(String nombre) throws cambioImposibleException{
 	Session s = HibernateUtil.getSessionFactory().openSession();
 	s.beginTransaction();
-	Criteria consulta = s.createCriteria(Asignatura.class,"asig")
-		.createAlias("asig.profesor", "p")
-		.setFetchMode("profesor", FetchMode.JOIN)
-		.setFetchMode("instituto", FetchMode.JOIN)
-		.add(Restrictions.ilike("p.nombre","%"+nombre+"%"));
+	Criteria consulta = s.createCriteria(Profesor.class)
+		.add(Restrictions.ilike("nombre",nombre));
+	if(consulta.list().isEmpty()) 
+	    throw new cambioImposibleException("Error, no hay profesores con estos datos");
 	Profesor profesor = (Profesor) consulta.list().get(0);
 	s.close();	
 	return profesor;
