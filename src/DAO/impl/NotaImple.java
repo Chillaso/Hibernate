@@ -114,6 +114,7 @@ public class NotaImple implements NotaDAO{
 	return notas;
     }               
     
+    @Override
     public void update(Nota nota)
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
@@ -123,6 +124,7 @@ public class NotaImple implements NotaDAO{
 	s.close();
     }
     
+    @Override
     public void insert(Nota nota)
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();

@@ -25,6 +25,7 @@ public class ProfesorImple implements ProfesorDAO{
 	return list;
     }
     
+    @Override
     public Collection<Profesor> filtrarProf(String dni, String nom, String ape, String in)
     {
 	

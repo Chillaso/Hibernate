@@ -25,6 +25,7 @@ public class InstitutoImple implements InstitutoDAO{
 	return list;
     }
     
+    @Override
     public Collection<Instituto> filtrarInstis(String nom, String localidad)
     {
 	

@@ -33,6 +33,7 @@ public class AsignaturaImple implements AsignaturaDAO{
 	return list;
     }
     
+    @Override
     public Collection<Asignatura> filtrarAsig(String nom, String prof, String in)
     {
 	
@@ -70,7 +71,7 @@ public class AsignaturaImple implements AsignaturaDAO{
 	return a;
     }
     
-    
+    @Override
     public Asignatura getAsignatura(String nombre) throws cambioImposibleException
     {
 	Session s = HibernateUtil.getSessionFactory().openSession();
@@ -83,23 +84,6 @@ public class AsignaturaImple implements AsignaturaDAO{
 	s.close();
 	return a;
     }    
-
-//    @Override
-//    public Asignatura getAsignatura(String identificador, boolean profesor) 
-//    {
-//	Session s = HibernateUtil.getSessionFactory().openSession();
-//	s.beginTransaction();
-//	Criteria c = s.createCriteria(Asignatura.class);
-//	
-//	if(profesor)
-//	    c.add(Restrictions.ilike("profesor", "%"+identificador+"%"));
-//	else 
-//	    c.add(Restrictions.ilike("nombre", "%"+identificador+"%"));
-//	
-//	Asignatura a = (Asignatura) c.list().get(0);
-//	s.close();
-//	return a;
-//    }        
 
     @Override
     public Instituto getInstituto(String nombre) throws cambioImposibleException{
