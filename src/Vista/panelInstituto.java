@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 
 //@author chillaso
@@ -223,7 +225,10 @@ public class panelInstituto extends javax.swing.JPanel {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 	if(!insertar)
 	{
-	    tabla.setModel(Control.filtrarInstitutos(nombre.getText(), localidad.getText()));
+	    DefaultTableModel modelo = Control.filtrarInstitutos(nombre.getText(), localidad.getText());		 
+	    TableRowSorter sorter = new TableRowSorter(modelo);
+	    tabla.setModel(modelo);
+	    tabla.setRowSorter(sorter);
 	}
 	else
 	{
@@ -264,7 +269,10 @@ public class panelInstituto extends javax.swing.JPanel {
     private void actualizarTabla()
     {
 	TableListener.celda=-1;
-	tabla.setModel(Control.obtenerInstitutos());
+	DefaultTableModel modelo = Control.obtenerInstitutos();
+	TableRowSorter sorter = new TableRowSorter(modelo);
+	tabla.setModel(modelo);
+	tabla.setRowSorter(sorter);
     }    
     
     public JTable getTabla() {

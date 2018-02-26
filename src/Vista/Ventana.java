@@ -4,6 +4,8 @@ import Controlador.Control;
 import Util.HibernateUtil;
 import java.awt.Graphics;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.hibernate.HibernateException;
 import org.hibernate.service.UnknownServiceException;
 
@@ -186,11 +188,36 @@ public class Ventana extends javax.swing.JFrame {
 		carga.setVisible(false);
 		JOptionPane.showMessageDialog(null, "Carga completada");
 		conectado=true;
-		pa.getTabla().setModel(Control.tablas.get(0));
-		paa.getTabla().setModel(Control.tablas.get(1));	
-		pn.getTabla().setModel(Control.tablas.get(2));
-		pp.getTabla().setModel(Control.tablas.get(3));
-		pi.getTabla().setModel(Control.tablas.get(4));
+		
+		//TABLA ALUMNO
+		DefaultTableModel mAlum = Control.tablas.get(0);		
+		TableRowSorter sorterA = new TableRowSorter(mAlum);
+		pa.getTabla().setModel(mAlum);
+		pa.getTabla().setRowSorter(sorterA);
+		
+		//TABLA ASIGNATURA
+		DefaultTableModel mAsig = Control.tablas.get(1);
+		TableRowSorter sorterAsig = new TableRowSorter(mAsig);		
+		paa.getTabla().setModel(mAsig);
+		paa.getTabla().setRowSorter(sorterAsig);
+		
+		//TABLA NOTA
+		DefaultTableModel mNota = Control.tablas.get(2);
+		TableRowSorter sorterN = new TableRowSorter(mNota);			
+		pn.getTabla().setModel(mNota);
+		pn.getTabla().setRowSorter(sorterN);
+		
+		//TABLA PROFESOR
+		DefaultTableModel mProf = Control.tablas.get(3);
+		TableRowSorter sorterP = new TableRowSorter(mProf);			
+		pp.getTabla().setModel(mProf);		
+		pp.getTabla().setRowSorter(sorterP);
+		
+		//TABLA INSTITUTO
+		DefaultTableModel mInsti = Control.tablas.get(4);
+		TableRowSorter sorterI = new TableRowSorter(mInsti);			
+		pi.getTabla().setModel(mInsti);
+		pi.getTabla().setRowSorter(sorterI);		
 		
 	    }
 	    else
@@ -239,8 +266,6 @@ public class Ventana extends javax.swing.JFrame {
     public boolean isConectado() {
 	return conectado;
     }
-
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog carga;

@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 //@author chillaso
  
@@ -261,8 +263,10 @@ public class panelAlumnos extends javax.swing.JPanel{
 		int e=-1;
 		if(!edad.getText().isEmpty())
 		    e = Integer.parseInt(edad.getText());
-
-		tabla.setModel(Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getSelectedItem().toString()));	   
+		DefaultTableModel modelo = Control.filtrarAlumnos(dni.getText(),nombre.getText(),ape.getText(),e,instituto.getSelectedItem().toString());
+		TableRowSorter sorter = new TableRowSorter(modelo);
+		tabla.setModel(modelo);	   
+		tabla.setRowSorter(sorter);
 	    }
 	    else
 	    {	    
@@ -280,7 +284,7 @@ public class panelAlumnos extends javax.swing.JPanel{
 		}	    
 	    }
 	    dialogAlum.dispose();
-	    dialogAlum.setVisible(false);
+	    dialogAlum.setVisible(false);	    
 	}
 	catch(cambioImposibleException ex)
 	{
@@ -348,7 +352,10 @@ public class panelAlumnos extends javax.swing.JPanel{
     private void actualizarTabla()
     {
 	TableListener.celda=-1;
-	tabla.setModel(Control.obtenerAlumnos());
+	DefaultTableModel modelo = Control.obtenerAlumnos();
+	TableRowSorter sorter = new TableRowSorter(modelo);
+	tabla.setModel(modelo);
+	tabla.setRowSorter(sorter);
     }
         
     public JTable getTabla() {

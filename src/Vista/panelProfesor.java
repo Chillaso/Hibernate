@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 
 //@author chillaso
@@ -246,9 +248,31 @@ public class panelProfesor extends javax.swing.JPanel{
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if(!insertar)
+        try
 	{
-	    tabla.setModel(Control.filtrarProfs(dni.getText(), nombre.getText(), ape.getText(), insti.getText()));
+	    if(!insertar)
+	    {
+		DefaultTableModel modelo = Control.filtrarProfs(dni.getText(), nombre.getText(), ape.getText(), insti.getText());
+		TableRowSorter sorter = new TableRowSorter(modelo);
+		tabla.setModel(modelo);
+		tabla.setRowSorter(sorter);
+	    }
+	    else
+	    {
+		if(!dni.getText().isEmpty() && !nombre.getText().isEmpty() && !ape.getText().isEmpty() && !insti.getText().isEmpty())
+		{
+		    Control.insertProfesor(dni.getText(),nombre.getText(),ape.getText(),insti.getText());
+		    actualizarTabla();
+		}
+		else
+		{		    
+		    JOptionPane.showMessageDialog(null, "Error, comlete todos los campos","Error",JOptionPane.ERROR_MESSAGE);
+		}
+	    }
+	}
+	catch(cambioImposibleException ex)
+	{
+	    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);	    	    
 	}
 	dialogProfesor.dispose();
 	dialogProfesor.setVisible(false);
@@ -294,7 +318,10 @@ public class panelProfesor extends javax.swing.JPanel{
     private void actualizarTabla()
     {
 	TableListener.celda=-1;
-	tabla.setModel(Control.obtenerProfesores());
+	DefaultTableModel modelo = Control.obtenerProfesores();
+	TableRowSorter sorter = new TableRowSorter(modelo);
+	tabla.setModel(modelo);
+	tabla.setRowSorter(sorter);
     }    
     
     public JTable getTabla() {

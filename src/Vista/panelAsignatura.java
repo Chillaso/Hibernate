@@ -9,6 +9,8 @@ import Util.cambioImposibleException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
  
 public class panelAsignatura extends javax.swing.JPanel{
 
@@ -224,9 +226,12 @@ public class panelAsignatura extends javax.swing.JPanel{
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 	try{
-		if(!insertar)
+	    if(!insertar)
 	    {
-		tabla.setModel(Control.filtrarAsig(nombre.getText(),profesor.getText(),instituto.getText()));
+		DefaultTableModel modelo = Control.filtrarAsig(nombre.getText(),profesor.getText(),instituto.getText());
+		TableRowSorter sorter = new TableRowSorter(modelo);
+		tabla.setModel(modelo);
+		tabla.setRowSorter(sorter);
 	    }
 	    else
 	    {
@@ -299,7 +304,10 @@ public class panelAsignatura extends javax.swing.JPanel{
     private void actualizarTabla()
     {
 	TableListener.celda=-1;
-	tabla.setModel(Control.obtenerAsignaturas());
+	DefaultTableModel modelo = Control.obtenerAsignaturas();
+	TableRowSorter sorter = new TableRowSorter(modelo);
+	tabla.setModel(modelo);
+	tabla.setRowSorter(sorter);
     }
     
     public JTable getTabla() {

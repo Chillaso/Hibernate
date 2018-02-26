@@ -8,6 +8,8 @@ import Util.cambioImposibleException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
  
 public class panelNotas extends javax.swing.JPanel{
@@ -242,7 +244,10 @@ public class panelNotas extends javax.swing.JPanel{
 	    if(!nota.getText().isEmpty())
 		n = Integer.parseInt(nota.getText());
 	    int c = COMPARADOR[comparador.getSelectedIndex()];
-	    tabla.setModel(Control.filtrarNotas(asig.getText(),alum.getText(), n, c));
+	    DefaultTableModel modelo = Control.filtrarNotas(asig.getText(),alum.getText(), n, c);
+	    TableRowSorter sorter = new TableRowSorter(modelo);
+	    tabla.setModel(modelo);
+	    tabla.setRowSorter(sorter);
 	}
 	else
 	{
@@ -295,7 +300,10 @@ public class panelNotas extends javax.swing.JPanel{
     private void actualizarTabla()
     {
 	TableListener.celda=-1;
-	tabla.setModel(Control.obtenerNotas());
+	DefaultTableModel modelo = Control.obtenerNotas();
+	TableRowSorter sorter = new TableRowSorter(modelo);
+	tabla.setModel(modelo);
+	tabla.setRowSorter(sorter);
     }    
     
     public JTable getTabla() {

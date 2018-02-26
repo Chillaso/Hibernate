@@ -190,12 +190,7 @@ public class Control extends Thread{
 	AsignaturaImple a = new AsignaturaImple();
 	return a.getAsignatura(id);	
     }
-    
-//    public static Asignatura obtenerAsignatura(String identificador, boolean profesor)
-//    {
-//	return new AsignaturaImple().getAsignatura(identificador, profesor);
-//    }
-    
+        
     public static boolean insertAsignatura(String nombre, String profesor, String instituto) throws cambioImposibleException
     {	
 	if(!nombre.isEmpty() && !profesor.isEmpty() && !instituto.isEmpty())
@@ -358,8 +353,16 @@ public class Control extends Thread{
     
     public static void updateProfesor(int id, String dni, String nombre, String apellido, String i) throws cambioImposibleException
     {
-	Instituto instituto = new InstitutoImple().getInstituto(i);
+	InstitutoImple ii = new InstitutoImple();
+	Instituto instituto = ii.getInstituto(i);
 	new ProfesorImple().update(new Profesor(id,dni,nombre,apellido,instituto));
+    }
+    
+    public static void insertProfesor(String dni, String nombre, String ape, String insti) throws cambioImposibleException
+    {
+	InstitutoImple ii = new InstitutoImple();
+	Instituto instituto = ii.getInstituto(insti);
+	new ProfesorImple().insert(new Profesor(dni,nombre,ape,instituto));
     }
     
     //------------------INSTITUTOS----------------
