@@ -3,8 +3,6 @@ package DAO.impl;
 //@author chillaso
 
 import DAO.NotaDAO;
-import Modelo.Alumno;
-import Modelo.Asignatura;
 import Modelo.Nota;
 import Util.HibernateUtil;
 import java.util.Collection;

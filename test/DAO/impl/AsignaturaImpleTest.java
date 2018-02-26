@@ -1,187 +1,71 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAO.impl;
 
 import Modelo.Asignatura;
 import Modelo.Instituto;
 import Modelo.Profesor;
+import Util.cambioImposibleException;
 import java.util.Collection;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author chillaso
- */
 public class AsignaturaImpleTest {
-    
-    public AsignaturaImpleTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
-    /**
-     * Test of getAll method, of class AsignaturaImple.
-     */
     @Test
     public void testGetAll() {
 	System.out.println("getAll");
 	AsignaturaImple instance = new AsignaturaImple();
-	Collection<Asignatura> expResult = null;
-	Collection<Asignatura> result = instance.getAll();
+	int expResult = 20;
+	int result = instance.getAll().size();
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of filtrarAsig method, of class AsignaturaImple.
-     */
-    @Test
-    public void testFiltrarAsig() {
-	System.out.println("filtrarAsig");
-	String nom = "";
-	String prof = "";
-	String in = "";
-	AsignaturaImple instance = new AsignaturaImple();
-	Collection<Asignatura> expResult = null;
-	Collection<Asignatura> result = instance.filtrarAsig(nom, prof, in);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAsignatura method, of class AsignaturaImple.
-     */
     @Test
     public void testGetAsignatura_int() {
 	System.out.println("getAsignatura");
-	int id_asig = 0;
+	int id_asig = 1;
 	AsignaturaImple instance = new AsignaturaImple();
-	Asignatura expResult = null;
-	Asignatura result = instance.getAsignatura(id_asig);
+	String expResult = "Acceso a Datos";
+	String result = instance.getAsignatura(id_asig).getNombre();
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getAsignatura method, of class AsignaturaImple.
-     */
     @Test
     public void testGetAsignatura_String() throws Exception {
 	System.out.println("getAsignatura");
-	String nombre = "";
+	String nombre = "Acceso a Datos";
 	AsignaturaImple instance = new AsignaturaImple();
-	Asignatura expResult = null;
-	Asignatura result = instance.getAsignatura(nombre);
+	String expResult = "Acceso a Datos";
+	String result = instance.getAsignatura(nombre).getNombre();
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of getInstituto method, of class AsignaturaImple.
-     */
+    
     @Test
     public void testGetInstituto() throws Exception {
 	System.out.println("getInstituto");
+	String nombre = "Almunia";
+	AsignaturaImple instance = new AsignaturaImple();
+	String expResult = "Almunia";
+	String result = instance.getInstituto(nombre).getNombre();
+	assertEquals(expResult, result);
+    }
+    
+    @Test(expected=cambioImposibleException.class)
+    public void testGetInstituto2() throws Exception {
+	System.out.println("getInstituto");
 	String nombre = "";
 	AsignaturaImple instance = new AsignaturaImple();
-	Instituto expResult = null;
-	Instituto result = instance.getInstituto(nombre);
+	String expResult = "Almunia";
+	String result = instance.getInstituto(nombre).getNombre();
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getProfesor method, of class AsignaturaImple.
-     */
     @Test
     public void testGetProfesor() throws Exception {
 	System.out.println("getProfesor");
-	String nombre = "";
+	String nombre = "Luis";
 	AsignaturaImple instance = new AsignaturaImple();
-	Profesor expResult = null;
-	Profesor result = instance.getProfesor(nombre);
+	String expResult = "Luis";
+	String result = instance.getProfesor(nombre).getNombre();
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of insert method, of class AsignaturaImple.
-     */
-    @Test
-    public void testInsert() {
-	System.out.println("insert");
-	Asignatura a = null;
-	AsignaturaImple instance = new AsignaturaImple();
-	instance.insert(a);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of delete method, of class AsignaturaImple.
-     */
-    @Test
-    public void testDelete() {
-	System.out.println("delete");
-	Asignatura a = null;
-	AsignaturaImple instance = new AsignaturaImple();
-	instance.delete(a);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of update method, of class AsignaturaImple.
-     */
-    @Test
-    public void testUpdate() {
-	System.out.println("update");
-	Asignatura a = null;
-	AsignaturaImple instance = new AsignaturaImple();
-	instance.update(a);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of saveOrUpdate method, of class AsignaturaImple.
-     */
-    @Test
-    public void testSaveOrUpdate() {
-	System.out.println("saveOrUpdate");
-	Asignatura a = null;
-	AsignaturaImple instance = new AsignaturaImple();
-	instance.saveOrUpdate(a);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-    
+    }    
 }
